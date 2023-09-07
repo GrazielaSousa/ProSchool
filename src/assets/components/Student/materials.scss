@@ -1,0 +1,40 @@
+@import '../../styles/variables.scss';
+
+.l-cards {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  justify-content: center;
+  justify-items: center;
+  padding: 30px;
+  overflow-y: auto;
+  height: 85vh;
+
+  .cards {
+    border-radius: $border-radius-2;
+    display: flex;
+    flex-direction: column;
+    background-color: $text-color-purple;
+    height: 250px;
+    // margin-left: 10px;
+    width: 350px;
+    position: relative;
+  }
+}
+
+.images {
+  width: 75%;
+  height: auto;
+  margin: 15px 0 15px auto;
+}
+.name-material {
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  top: 180px;
+  position: absolute;
+  padding: 10px;
+}

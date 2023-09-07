@@ -1,0 +1,17 @@
+@import "./variables.scss";
+
+.home {
+  display: grid;
+  grid-template-columns: minmax(200px, 290px) 1fr;
+
+  .container-main {
+    display: grid;
+    grid-template-rows: minmax(50px, 120px) 1fr;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .home {
+    grid-template-columns: 1fr;
+  }
+}

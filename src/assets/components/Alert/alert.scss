@@ -1,0 +1,63 @@
+@import "../../styles/variables.scss";
+
+* {
+  font-family: $font-primary;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.container-alert {
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-color-purple-transparent;
+  width: 30vw;
+  border-radius: $border-radius-1;
+  padding: 1rem;
+}
+
+.alert-flex {
+  display: flex;
+  width: 50vw;
+  color: $text-color-purple;
+}
+
+.icon-alert {
+  width: 50px;
+}
+
+.text-alert {
+  color: $text-color-blue;
+  margin-top: 1rem;
+  margin-left: 3.5rem;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    width: 55vw;
+    height: auto;
+  }
+  .container-alert {
+    width: 100%;
+    height: auto;
+  }
+  .text-alert {
+    max-width: 100%;
+    margin-left: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 75vw;
+    height: auto;
+  }
+  .text-alert {
+    font-size: 1rem;
+  }
+}

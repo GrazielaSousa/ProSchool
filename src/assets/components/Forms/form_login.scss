@@ -1,0 +1,210 @@
+@import '../../styles/variables.scss';
+
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: $font-primary;
+  font-size: 1.2rem;
+}
+
+.form {
+  margin-top: 40px;
+  display: grid;
+  position: relative;
+  width: 25rem;
+  height: 4rem;
+  gap: 5rem;
+  /* Remove a margin-top da segunda div.form */
+  // &:nth-child(2) {
+  //   margin-top: 1.3rem;
+  // }
+}
+
+.form_input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid $text-color-blue;
+  border-radius: $border-radius-1;
+  font-family: inherit;
+  font-size: inherit;
+  color: $text-color-blue;
+  outline: none;
+  padding: 1.25rem;
+  background: none;
+  transition: all  160ms ease-in;
+  font-weight: 300;
+}
+
+.form_input:hover {
+  border-color: $text-color-purple;
+}
+
+.form_input:focus {
+  border-color: $text-color-purple;
+}
+
+.form_label {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  padding: 0.2rem 0.5rem;
+  color: $text-color-blue;
+  cursor: text;
+  transition: top 200ms ease-in,
+  left 200ms ease-in,
+  font-size 200ms ease-in;
+  background-color: #fbfbfb;
+  font-weight: 300;
+}
+
+.form_input:focus ~ .form_label {
+  top: -0.5rem;
+  font-size: 0.8rem;
+  left: 0.8rem;
+  color: $text-color-purple;
+}
+
+.form_input:not(:placeholder-shown) ~ .form_label {
+  top: -0.5rem;
+  left: 0.8rem;
+  font-size: 0.8rem;
+  color: $text-color-purple;
+}
+
+input:focus::placeholder{
+  color: #fbfbfb;
+}
+
+
+.container-form {
+  display: flex;
+  flex-direction: column;
+}
+.container-btn {
+  display: flex;
+  justify-content: center;
+}
+/* Estilo personalizado para o botão */
+.btn-submit {
+  display: inline-block;
+  background: $text-color-blue;
+  border: none;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 500;
+  padding: 0.6rem 4rem;
+  cursor: pointer;
+  z-index: 1;
+  margin-top: 1.3rem;
+  transition: color 0.3s ease;
+  border-radius: 10px;
+}
+
+.btn-submit:hover {
+  background: $text-color-purple;
+}
+
+.container-senha {
+  display: flex;  
+  flex-direction: row;
+  // align-items: center;
+}
+
+.label-checkbox {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  margin-top: 1rem;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.label-checkbox::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  border: 2px solid $text-color-blue;
+  background-color: white;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.label-checkbox::after {
+  content: "✔";
+  position: absolute;
+  left: 4px;
+  top: -2px;
+  font-size: 16px;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.btn-checkbox:checked + .label-checkbox::before {
+  border-color: $text-color-purple;
+  background-color: $text-color-purple;
+}
+
+.btn-checkbox:checked + .label-checkbox::after {
+  opacity: 1;
+}
+
+.save-password {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 65px;
+  margin-top: 1.4rem;
+}
+
+.reset-password {
+  height: 100%;
+  font-size: 1rem;
+  margin-left: auto;
+  margin-top: 1rem;
+  text-decoration: underline;
+  color: $text-color-blue;
+  font-weight: 400;
+}
+.reset-password:hover {
+  color: $text-color-purple;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .form{
+    width: 23rem;
+  }
+}
+@media (max-width: 330px) {
+  .form{
+    width: 17rem;
+  }
+  .label-checkbox {
+    font-size: 0.8rem;
+  }
+  .label-checkbox::before {
+    width: 17px;
+    height: 17px;
+  }
+  .label-checkbox::after{
+    left: 3px;
+    top: -4px;
+  }
+  .reset-password {
+    font-size: 0.7rem;
+  }
+  .container-senha {
+    gap: 0.3rem;
+  }
+}

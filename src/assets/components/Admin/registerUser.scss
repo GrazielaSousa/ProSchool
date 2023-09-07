@@ -1,0 +1,10 @@
+@import '../../styles/variables.scss';
+
+.container-register {
+  display: flex;
+  // justify-content: center;
+  gap: 10px;
+  height: fit-content;
+  margin-left: 1.25rem;
+  flex-wrap: wrap;
+}

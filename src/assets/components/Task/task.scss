@@ -1,0 +1,20 @@
+@import "../../styles/variables.scss";
+
+.container-task {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+h2 {
+  margin-bottom: 10px; /* Adicione margem inferior conforme necessário */
+  font-family: $font-primary;
+  word-wrap: break-word; /* Adicione a propriedade para quebrar palavras longas */
+}
+
+@media screen and (max-width: 768px) {
+  .container-task {
+    width: 92vw;
+    margin: 2px 5px;
+    margin-bottom: 60px;
+  }
+}

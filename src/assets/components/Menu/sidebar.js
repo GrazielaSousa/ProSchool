@@ -1,4 +1,4 @@
-export const tipoUsuario = 'admin'; // DEVE VIR DO BANCO DE DADOS O TIPO DE USUARIO
+export const tipoUsuario = 'responsavel'; // DEVE VIR DO BANCO DE DADOS O TIPO DE USUARIO
 
 export const menuTipoUsuario = {
   aluno: [
@@ -18,7 +18,7 @@ export const menuTipoUsuario = {
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],
   responsavel: [
-    { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
+    // { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
     { label: 'Dados do Aluno', link: '/DadosAluno', icon: 'description' },
     { label: 'Configurações', link: '/Configurações', icon: 'settings' },
     { label: 'Sair', link: '/Sair', icon: 'logout' },
@@ -31,4 +31,3 @@ export const menuTipoUsuario = {
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],
 };
-

@@ -7,23 +7,28 @@ import { tipoUsuario, menuTipoUsuario } from './sidebar.js';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ onMenuItemClick }) => {
+  // Defina o estado activeLink para o primeiro item do menu no início
+  const [activeLink, setActiveLink] = useState(
+    menuTipoUsuario[tipoUsuario][0]?.label
+  );
   const navigate = useNavigate();
+
   // Função para alterar o nome do item menu que clicou
-  const alterarTituloPagina = (event, menuItem) => {
+  const changePageTitle = (event, menuItem) => {
     event.preventDefault();
     onMenuItemClick(menuItem);
   };
 
   /* ===== TRATA A EXPANSAO DO MENU */
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState(null); //
+  const [activeLinkMenu, setActiveLinkMenu] = useState(null); //
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   // Função ao receber eventos de clique na sidebar
-  const manipularCliqueSidebar = (event, menuItem) => {
+  const manipulateClickSidebar = (event, menuItem) => {
     event.preventDefault();
     onMenuItemClick(event, menuItem, activeLink);
 
@@ -99,10 +104,12 @@ const Sidebar = ({ onMenuItemClick }) => {
                 if (menuItem.label === 'Sair') {
                   navigate('/login');
                 } else {
-                  manipularCliqueSidebar(event, menuItem.label);
-                  alterarTituloPagina(event, menuItem.label);
+                  manipulateClickSidebar(event, menuItem.label);
+                  changePageTitle(event, menuItem.label);
+                  setActiveLinkMenu(menuItem.label);
                 }
               }}
+              className={menuItem.label === activeLink ? 'active' : ''}
             >
               <span className="material-icons-sharp">{menuItem.icon}</span>
               <h3>{menuItem.label}</h3>

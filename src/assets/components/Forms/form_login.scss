@@ -181,6 +181,10 @@ input:focus::placeholder{
   cursor: pointer;
 }
 
+// .input-error, .input-error:focus{
+//   border:2px solid $color-red-danger;
+// }
+
 @media (max-width: 768px) {
   .form{
     width: 23rem;

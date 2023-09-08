@@ -1,46 +1,23 @@
-import { InputField } from '../Forms/InputForm/InputField.jsx';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../Button/Button.jsx';
 import { PropTypes } from 'prop-types';
 import '../../styles/login.scss';
+import { useForm } from 'react-hook-form';
 
 export const LoginUser = ({ onForgotPasswordClick }) => {
   const navigate = useNavigate();
-  const [credentialCorrect, setCredential] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  InputField.defaultProps = {
-    title: '',
-  };
-
-  const [loginData, setLoginData] = useState({
-    email: '',
-    password: '',
-  });
-
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setLoginData((prevLoginData) => ({
-      ...prevLoginData,
-      [id]: value,
-    }));
-  };
-
-  const handleBlur = (e) => {
-    const { id, value } = e.target;
-    if (!value) {
-      setLoginData((prevLoginData) => ({
-        ...prevLoginData,
-        [id]: '',
-      }));
-    }
-  };
-
-  const handleAcessarClick = () => {
+  const onSubmit = (dataUser) => {
+    console.log(dataUser);
     // Verificar as credenciais do usuário
-    if (loginData.email === '123' && loginData.password === '123') {
+    if (dataUser.email === '123' && dataUser.password === '123') {
       console.log('Credenciais válidas');
-      setCredential(true);
+      // setCredential(true);
       navigate('/home'); // Redirecionar para a página inicial após o login
     } else {
       console.error('Credenciais inválidas');
@@ -49,33 +26,47 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
 
   return (
     <>
-      <InputField
-        title="Realizar Login"
-        type="text"
-        id="email"
-        className="form_input"
-        autoComplete="off"
-        name="email"
-        placeholder={loginData.email ? '' : 'Email'}
-        value={loginData.email}
-        onBlur={handleBlur}
-        onChange={handleInputChange}
-        label="Email"
-      />
-      <InputField
-        title=""
-        type="password"
-        name="password"
-        id="password"
-        className="form_input"
-        autoComplete="off"
-        placeholder={loginData.password ? '' : 'Senha'}
-        value={loginData.password}
-        onBlur={handleBlur}
-        onChange={handleInputChange}
-        label="Senha"
-        data-credential-correct={credentialCorrect}
-      />
+      <p className="titulo-login">Realizar Login</p>
+      <div className="form">
+        <input
+          type="text"
+          id="email"
+          autoComplete="off"
+          {...register('email', {
+            required: true,
+          })}
+          className={`form_input ${errors?.email ? 'input-error' : ''}`}
+          placeholder="Email"
+          label="Email"
+        />
+        <label htmlFor="email" className="form_label">
+          Email
+        </label>
+      </div>
+      {errors?.email && errors?.email.type === 'required' && (
+        <span className="error-message">Preencha seu e-mail</span>
+      )}
+
+      <div className="form">
+        <input
+          type="text"
+          id="password"
+          autoComplete="off"
+          {...register('password', {
+            required: true,
+          })}
+          className={`form_input ${errors?.password ? 'input-error' : ''}`}
+          placeholder="Senha"
+          label="Senha"
+        />
+        <label htmlFor="password" className="form_label">
+          Senha
+        </label>
+      </div>
+      {errors?.password && errors?.password.type === 'required' && (
+        <span className="error-message">Insira sua senha</span>
+      )}
+
       <div className="save-password">
         <div className="container-senha">
           <input type="checkbox" className="btn-checkbox" id="checkbox" />
@@ -90,7 +81,7 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
             </span>
           )}
       </div>
-      <Button textButton="Acessar" onClick={handleAcessarClick} />
+      <Button textButton="Acessar" onClick={handleSubmit(onSubmit)} />
     </>
   );
 };

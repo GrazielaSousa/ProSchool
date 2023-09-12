@@ -82,7 +82,6 @@ input:focus::placeholder{
   color: #fbfbfb;
 }
 
-
 .container-form {
   display: flex;
   flex-direction: column;
@@ -180,10 +179,6 @@ input:focus::placeholder{
   color: $text-color-purple;
   cursor: pointer;
 }
-
-// .input-error, .input-error:focus{
-//   border:2px solid $color-red-danger;
-// }
 
 @media (max-width: 768px) {
   .form{

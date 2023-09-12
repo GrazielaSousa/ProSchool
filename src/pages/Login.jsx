@@ -17,7 +17,6 @@ export const Login = () => {
     setShowResetAcess(true);
   };
 
-
   const handleBackToLoginClick = () => {
     /** Volta para tela de login */
     setShowLogin(true);
@@ -48,7 +47,9 @@ export const Login = () => {
             />
           )}
           {showResetAcess && (
-            <LoginResetPassword handleBackToLoginClick={handleBackToLoginClick} />
+            <LoginResetPassword
+              handleBackToLoginClick={handleBackToLoginClick}
+            />
           )}
         </div>
       </div>

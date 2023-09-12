@@ -1,4 +1,13 @@
-export const tipoUsuario = 'responsavel'; // DEVE VIR DO BANCO DE DADOS O TIPO DE USUARIO
+// Inicialização de tipoUsuario
+export let tipoUsuario = localStorage.getItem('tipoUsuario'); // Valor padrão 'admin'
+
+// Função para atualizar e armazenar o valor em localStorage
+export function setTipoUsuarioLogado(valor) {
+  tipoUsuario = valor;
+  localStorage.setItem('tipoUsuario', valor);
+  console.log('Tipo de usuário logado em sidebar: ', tipoUsuario);
+}
+
 
 export const menuTipoUsuario = {
   aluno: [

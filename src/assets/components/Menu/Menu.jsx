@@ -107,6 +107,7 @@ const Sidebar = ({ onMenuItemClick }) => {
                   manipulateClickSidebar(event, menuItem.label);
                   changePageTitle(event, menuItem.label);
                   setActiveLinkMenu(menuItem.label);
+                  // getActiveLinkMenu(menuItem.label);
                 }
               }}
               className={menuItem.label === activeLink ? 'active' : ''}

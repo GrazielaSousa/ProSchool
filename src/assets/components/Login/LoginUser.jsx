@@ -3,9 +3,21 @@ import { Button } from '../Button/Button.jsx';
 import { PropTypes } from 'prop-types';
 import '../../styles/login.scss';
 import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import usersData from '../../auth/usuarios.json';
+import { setTipoUsuarioLogado } from '../Menu/sidebar.js';
+import { useUser } from '../../../context/UserContext.jsx';
 
 export const LoginUser = ({ onForgotPasswordClick }) => {
+  const [authenticationError, setAuthenticationError] = useState(false);
+  const { setNomeUsuario } = useUser();
+
+  useEffect(() => {
+    document.title = 'Login';
+  });
+
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -14,12 +26,19 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
 
   const onSubmit = (dataUser) => {
     console.log(dataUser);
-    // Verificar as credenciais do usuário
-    if (dataUser.email === '123' && dataUser.password === '123') {
-      console.log('Credenciais válidas');
-      // setCredential(true);
+    const user = usersData.find(
+      (user) =>
+        user.login === dataUser.email && user.senha === dataUser.password
+    );
+
+    if (user) {
+      const usuarioLogado = user.tipoUsuario;
+      setNomeUsuario(user.nomeUsuario);
+      // console.log('Credenciais válidas');
+      setTipoUsuarioLogado(usuarioLogado);
       navigate('/home'); // Redirecionar para a página inicial após o login
     } else {
+      setAuthenticationError(true);
       console.error('Credenciais inválidas');
     }
   };
@@ -66,6 +85,9 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
       {errors?.password && errors?.password.type === 'required' && (
         <span className="error-message">Insira sua senha</span>
       )}
+      {authenticationError && (
+        <span className="error-message">Login e/ou senha inválidos</span>
+      )}
 
       <div className="save-password">
         <div className="container-senha">
@@ -88,7 +110,5 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
 
 LoginUser.propTypes = {
   onForgotPasswordClick: PropTypes.func,
-  dateLogin: PropTypes.string,
   onBackToLoginClick: PropTypes.func,
-  onCredentialCorrectChange: PropTypes.func,
 };

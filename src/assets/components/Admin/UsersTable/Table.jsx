@@ -53,6 +53,7 @@ export const UsersTable = () => {
 
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
+    setFilter('');
     setCurrentPage(0);
   };
 
@@ -84,6 +85,7 @@ export const UsersTable = () => {
           onChange={handleChangeInput}
           className="input-search"
           placeholder="Buscar"
+          value={filter}
         />
         {/* <a href='#'><span className="icon-search material-icons-sharp">search</span></a> */}
       </div>

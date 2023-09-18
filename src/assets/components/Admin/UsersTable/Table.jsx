@@ -56,7 +56,6 @@ export const UsersTable = () => {
     setCurrentPage(0);
   };
 
-  // Filtra os dados da tabela
   const handleChangeInput = (e) => {
     setFilter(e.target.value.toLowerCase());
     console.log(filter);

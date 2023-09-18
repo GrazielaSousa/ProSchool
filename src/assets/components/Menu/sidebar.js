@@ -34,8 +34,8 @@ export const menuTipoUsuario = {
   ],
   admin: [
     { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
-    // { label: 'Alunos', link: '/Alunos', icon: 'school' },
-    { label: 'Cadastrar usuário', link: '/Professores', icon: 'people_alt' },
+    { label: 'Usuários', link: '/Usuarios', icon: 'people_alt' },
+    { label: 'Cadastrar usuário', link: '/Professores', icon: 'person' },
     // { label: 'Configurações', link: '/Configurações', icon: 'settings' },
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],

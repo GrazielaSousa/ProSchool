@@ -8,7 +8,7 @@ import iconTykki from '../../images/tykki.jpg';
 const Header = ({ selectedMenuItem }) => {
   const { nomeUsuario } = useUser();
 
-  console.log('Nome do usuário atualizado:', nomeUsuario);
+  // console.log('Nome do usuário atualizado:', nomeUsuario);
   return (
     <div className="header">
       <p className="titulo-janela">{selectedMenuItem}</p>

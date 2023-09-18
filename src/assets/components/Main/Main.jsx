@@ -5,14 +5,16 @@ import Desempenho from '../Perform/Perform';
 import Material from '../Materials/Materials';
 import Sair from '../Logout/Logout.jsx';
 import { RegistrarUsuario } from '../Admin/RegiserUser.jsx';
+import { UsersTable } from '../Admin/UsersTable/Table.jsx';
 
 function MainSection({ selectedMenuItem }) {
   // Mapeia selectedMenuItem para o componente correspondente
   const componentMap = {
+    // label do meu : component
     Dashboard: Dashboard,
     Desempenho: Desempenho,
     Materiais: Material,
-    // label : component
+    'Usuários': UsersTable,
     'Cadastrar usuário': RegistrarUsuario,
     // Configurações: () => <Settings tipoUsuario={tipoUsuario} />,
     Sair: Sair,

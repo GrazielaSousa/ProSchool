@@ -18,7 +18,7 @@ function Home({ tipoUsuario }) {
   function getDefaultItemMenu(tipoUsuario) {
     switch (tipoUsuario) {
       case 'aluno':
-        return 'Dashboard'; // Defina o item de menu padrão para alunos
+        return 'Materiais'; // Defina o item de menu padrão para alunos
       case 'professor':
         return 'Dashboard'; // Defina o item de menu padrão para professores
       case 'responsavel':

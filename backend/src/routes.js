@@ -4,9 +4,7 @@ const routes = express.Router();
 // Importa os controllers
 const userController = require('./controllers/userController');
 
-
-// Rota User
-routes.post('/user', userController.create);
-
+// Rota Usuarios
+routes.post('/usuarios', userController.create);
 
 module.exports = routes;

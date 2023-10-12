@@ -10,6 +10,13 @@ const app = express();
 // Importa o arquivo .env
 require('dotenv').config();
 
+const routes = require('./routes');
+
+require('./config/mongoConfig');
+
+app.use(express.json());
+app.use(routes);
+
 app.get('/', (req, res) => {
   res.send('Teste servidor');
 });

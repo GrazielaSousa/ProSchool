@@ -19,10 +19,6 @@ function Home({ tipoUsuario }) {
     switch (tipoUsuario) {
       case 'aluno':
         return 'Materiais'; // Defina o item de menu padrão para alunos
-      case 'professor':
-        return 'Dashboard'; // Defina o item de menu padrão para professores
-      case 'responsavel':
-        return 'Dados do Aluno'; // Defina o item de menu padrão para responsáveis
       case 'admin':
         return 'Dashboard'; // Defina o item de menu padrão para administradores
       default:
@@ -32,7 +28,6 @@ function Home({ tipoUsuario }) {
 
   const handleMenuItemClick = (menuItem) => {
     setSelectedMenuItem(menuItem);
-    // console.log("MenuItem:", menuItem);
   };
   return (
     <div className="home">

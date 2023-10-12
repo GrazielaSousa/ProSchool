@@ -16,7 +16,6 @@ function MainSection({ selectedMenuItem }) {
     Materiais: Material,
     'Usuários': UsersTable,
     'Cadastrar usuário': RegistrarUsuario,
-    // Configurações: () => <Settings tipoUsuario={tipoUsuario} />,
     Sair: Sair,
   };
   // Atribui o valor correspondente ao objeto que foi clicado

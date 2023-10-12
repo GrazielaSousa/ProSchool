@@ -7,20 +7,24 @@ import { useState } from 'react';
 /** Imagens */
 import ImgLogin from '../assets/images/img-login.svg';
 import Logo from '../assets/images/logo-tcc.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
+  const navigate = useNavigate();
   const [showLogin, setShowLogin] = useState(true);
   const [showResetAcess, setShowResetAcess] = useState(false);
 
   const handleResetPassword = () => {
     setShowLogin(false);
     setShowResetAcess(true);
+    navigate('/resetar-senha');
   };
 
   const handleBackToLoginClick = () => {
     /** Volta para tela de login */
     setShowLogin(true);
     setShowResetAcess(false);
+    navigate('/login');
   };
 
   return (

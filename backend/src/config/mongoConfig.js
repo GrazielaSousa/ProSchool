@@ -13,14 +13,4 @@ mongoose.connect(urlMongo, {
 
 const mongoConnection = mongoose.connection;
 
-// mongoConnection.on('error', () => {
-//   console.log('Erro ao conectar ao banco de dados');
-// });
-
-// mongoConnection.on('open', () => {
-//   console.log('Conexão com o banco de dados estabelecida');
-// });
-
-// const db = mongoose.connection;
-
 module.exports = mongoConnection;

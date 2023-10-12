@@ -1,23 +1,29 @@
-import PropTypes from 'prop-types'; // Importe o PropTypes para definir tipos de propriedades
+import PropTypes from 'prop-types';
 import './card_description.scss';
+import { perform } from '../Perform/perfom.js';
 
-function CardDescription(props) {
-  const { src, className, alt } = props;
-
+function CardDescription() {
   return (
-    // <div className="cards-container">
-    <div className="item">
-      <div className="icon-span">
-        <div className={`circle ${className}`}>
-          <img src={src} alt={alt} className="svg-image" />
+    <>
+      {perform.map((material, index) => (
+        <div key={index} className="item">
+          <div key={index} className="icon-span">
+            <div className={`circle ${material.className}`}>
+              <img
+                src={material.src}
+                alt={material.text}
+                className="svg-image"
+              />
+            </div>
+            <span>{material.text}</span>
+          </div>
+          <span className="nota">
+            {material.grade}
+            <h6 className="nota-default">/10</h6>
+          </span>
         </div>
-        <span>{alt}</span>
-      </div>
-      <span className="nota">
-        8.0<h6 className="nota-default">/10</h6>
-      </span>
-    </div>
-    // </div>
+      ))}
+    </>
   );
 }
 

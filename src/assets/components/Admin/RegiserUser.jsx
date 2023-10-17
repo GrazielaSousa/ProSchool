@@ -1,100 +1,157 @@
-import { useState } from 'react';
-import { SelectFunction } from '../Select/SelectFunction.jsx';
+import { HeaderRegister } from '../Header/HeaderRegister.jsx';
+import { RxArrowLeft, RxArrowRight, RxCheck } from 'react-icons/rx';
 import './registerUser.scss';
-import { InputRegister } from '../Forms/InputForm/InputRegister.jsx';
+import { useState } from 'react';
+
+import api from '../../../api/api.js';
+
+// Hooks
+import { useForm } from '../../../hooks/useForm';
+
+import { RegisterAddress } from '../Register/RegisterAddress.jsx';
+import { RegisterSchool } from '../Register/RegisterSchool.jsx';
+import { RegisterData } from '../Register/RegisterData';
+
+const templateData = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  dateBirth: '',
+  cpf: '',
+  gender: '',
+  password: '',
+};
 
 export const RegistrarUsuario = () => {
-  const [formData, setDataForm] = useState({
-    nomeUsuario: '',
-    sobrenomeUsuario: '',
-    turma: '',
-    funcao: '',
-  });
+  const [formData, setFormData] = useState(templateData);
+  const [isFormValid, setIsFormValid] = useState(false);
 
-  const handleInputChange = (event) => {
-    const { id, value } = event.target;
-    setDataForm((prevDataForm) => ({
-      ...prevDataForm,
-      [id]: value,
-    }));
+  const updateFieldData = (key, value) => {
+    setFormData((prevState) => {
+      return { ...prevState, [key]: value };
+    });
   };
 
-  const handleBlur = (e) => {
-    const { id, value } = e.target;
-    if (!value) {
-      setDataForm((prevDataForm) => ({
-        ...prevDataForm,
-        [id]: '',
-      }));
+  const stepsComponent = [
+    <RegisterData
+      key="register-data"
+      formData={formData}
+      updateFieldData={updateFieldData}
+      setIsFormValid={setIsFormValid}
+    />,
+    <RegisterAddress
+      key="register-address"
+      formData={formData}
+      updateFieldData={updateFieldData}
+      setIsFormValid={setIsFormValid}
+    />,
+    <RegisterSchool
+      key="register-school"
+      formData={formData}
+      updateFieldData={updateFieldData}
+    />,
+  ];
+
+  const { currentStep, currentComponent, changeStep, isLastStep, isFirstStep } =
+    useForm(stepsComponent);
+
+  async function handleSubmit() {
+    try {
+      const response = await api.post('/usuarios', {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error('Erro ao enviar dados para o servidor:', error);
     }
-  };
-
-  // Função de callback para atualizar a propriedade 'funcao' em formData
-  const handleSelectChange = (selectedFunction) => {
-    setDataForm((prevDataForm) => ({
-      ...prevDataForm,
-      funcao: selectedFunction,
-    }));
-  };
+  }
 
   return (
-    <div className="container-register">
-      <InputRegister
-        type="text"
-        id="nomeUsuario"
-        placeholder="Nome"
-        autocomplete="off"
-        label="Nome"
-        name="nome"
-        value={formData.nomeUsuario}
-        onChange={handleInputChange}
-        onBlur={handleBlur}
-      />
+    <div className="c-container">
+      <div className="container-register">
+        <HeaderRegister currentStep={currentStep} />
+        <div className="container-steps">
+          <form
+            className="form-container"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (isFormValid) {
+                changeStep(currentStep + 1, e);
+              }
+            }}
+          >
+            <div className="input-component">{currentComponent}</div>
+            <div className="actions-buttons">
+              {!isFirstStep && (
+                <button
+                  disabled={currentStep === 0}
+                  className={`button-back ${
+                    currentStep > 0 ? 'active' : 'inactive'
+                  }`}
+                  type="button"
+                  onClick={() => changeStep(currentStep - 1)}
+                >
+                  <RxArrowLeft
+                    className={`icon-register ${
+                      currentStep > 0 ? 'active' : 'inactive'
+                    }`}
+                  />
+                  <span
+                    className={`text-button-register ${
+                      currentStep > 0 ? 'active' : 'inactive'
+                    }`}
+                  >
+                    Voltar
+                  </span>
+                </button>
+              )}
 
-      <InputRegister
-        type="text"
-        id="sobrenomeUsuario"
-        placeholder="Sobrenome"
-        autocomplete="off"
-        label="Sobrenome"
-        name="sobrenome"
-        value={formData.sobrenomeUsuario}
-        onChange={handleInputChange}
-        onBlur={handleBlur}
-      />
-
-      <SelectFunction
-        id="form_select"
-        label="Selecione uma função"
-        onChange={handleSelectChange}
-        value={formData.funcao}
-      />
-
-      <InputRegister
-        type="text"
-        id="turma"
-        placeholder="Turma"
-        autocomplete="off"
-        label="Turma"
-        name="turma"
-        value={formData.turma}
-        onChange={handleInputChange}
-      />
-
-      <InputRegister
-        type="text"
-        id="responsavel"
-        placeholder="Responsável"
-        autocomplete="off"
-        label="Responsável"
-        name="responsavel"
-        value={formData.responsavel}
-        onChange={handleInputChange}
-      />
-      <div>
-        <p>{formData.nomeUsuario}</p>
-        <p>{formData.sobrenomeUsuario}</p>
-        <p>{formData.funcao}</p>
+              {!isLastStep ? (
+                <button
+                  onClick={() => handleSubmit()}
+                  className={`button-next ${
+                    currentStep >= 0 && isFormValid ? 'active' : 'inactive'
+                  }`}
+                  type="submit"
+                >
+                  <span
+                    className={`text-button-register ${
+                      currentStep >= 0 && isFormValid ? 'active' : 'inactive'
+                    }`}
+                  >
+                    Avançar
+                  </span>
+                  <RxArrowRight
+                    className={`icon-register ${
+                      currentStep >= 0 && isFormValid ? 'active' : 'inactive'
+                    }`}
+                  />
+                </button>
+              ) : (
+                <button
+                  className={`button-next ${
+                    currentStep >= 0 ? 'active' : 'inactive'
+                  }`}
+                  type="button"
+                >
+                  <span
+                    className={`text-button-register ${
+                      currentStep >= 0 ? 'active' : 'inactive'
+                    }`}
+                  >
+                    Enviar
+                  </span>
+                  <RxCheck
+                    className={`icon-register ${
+                      currentStep >= 0 ? 'active' : 'inactive'
+                    }`}
+                  />
+                </button>
+              )}
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

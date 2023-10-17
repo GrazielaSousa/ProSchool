@@ -103,6 +103,7 @@ const Sidebar = ({ onMenuItemClick }) => {
               onClick={(event) => {
                 if (menuItem.label === 'Sair') {
                   navigate('/login');
+                  localStorage.clear();
                 } else {
                   manipulateClickSidebar(event, menuItem.label);
                   changePageTitle(event, menuItem.label);

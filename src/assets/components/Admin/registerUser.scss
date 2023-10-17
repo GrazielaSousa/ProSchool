@@ -1,10 +1,75 @@
 @import '../../styles/variables.scss';
 
+.c-container {
+  display: flex;
+  justify-content: center;
+}
+
 .container-register {
   display: flex;
-  // justify-content: center;
   gap: 10px;
+  width: 100%;
   height: fit-content;
   margin-left: 1.25rem;
   flex-wrap: wrap;
+}
+
+.form-container {
+  width: 80vw;
+}
+
+// BOTOES
+.actions-buttons {
+  display: flex;
+  gap: 50px;
+}
+
+.button-back, .button-next {
+  display: flex;
+  width: 160px;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border: 2px solid $button-gray;
+  background-color: transparent;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.text-button-register, .icon-register {
+  color: $button-gray;
+  font-size: 16px;
+}
+
+.text-button-register.active, .icon-register.active {
+  color: $text-color-purple;
+  background-color: transparent;
+}
+
+.button-back.inactive, .text-button-register.inactive {
+  cursor: not-allowed;
+}
+
+.button-next.active, .button-back.active {
+  border: 2px solid $text-color-purple;
+  background-color: transparent;
+}
+
+.actions-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.container-steps {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+.input-component {
+  display: flex;  
+  justify-content: center;
+  // width: 92vw;
+  gap: 13rem;
+  margin-top: 40px;
 }

@@ -5,7 +5,6 @@ export let tipoUsuario = localStorage.getItem('tipoUsuario'); // Valor padrão '
 export function setTipoUsuarioLogado(valor) {
   tipoUsuario = valor;
   localStorage.setItem('tipoUsuario', valor);
-  console.log('Tipo de usuário logado em sidebar: ', tipoUsuario);
 }
 
 
@@ -15,23 +14,10 @@ export const menuTipoUsuario = {
     { label: 'Desempenho', link: '/Desempenho', icon: 'pie_chart' },
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],
-  professor: [
-    { label: 'Alunos', link: '/Alunos', icon: 'school' },
-    // { label: 'Atividades', link: '/Atividades', icon: 'task_alt' },
-    { label: 'Materiais', link: '/Materiais', icon: 'collections_bookmark' },
-    { label: 'Sair', link: '/Sair', icon: 'logout' },
-  ],
-  responsavel: [
-    // { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
-    { label: 'Dados do Aluno', link: '/DadosAluno', icon: 'description' },
-    { label: 'Configurações', link: '/Configurações', icon: 'settings' },
-    { label: 'Sair', link: '/Sair', icon: 'logout' },
-  ],
   admin: [
     { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
     { label: 'Usuários', link: '/Usuarios', icon: 'people_alt' },
     { label: 'Cadastrar usuário', link: '/Professores', icon: 'person' },
-    // { label: 'Configurações', link: '/Configurações', icon: 'settings' },
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],
 };

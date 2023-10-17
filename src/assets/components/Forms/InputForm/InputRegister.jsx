@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import '../form_login.scss';
+// import '../form_login.scss';
 
 export const InputRegister = ({
   type,
@@ -13,26 +13,25 @@ export const InputRegister = ({
 }) => {
   return (
     <>
-      <form className="form">
+      <div className="c-register">
         <input
           type={type}
           id={id}
           name={name}
-          className="form_input"
+          className="_input-register"
           autoComplete="off"
           placeholder={placeholder}
           value={value}
           onChange={onChange}
           onBlur={onBlur}
         />
-        <label htmlFor={id} className="form_label">
+        <label htmlFor={id} className="_label">
           {label}
         </label>
-      </form>
+      </div>
     </>
   );
 };
-
 
 InputRegister.propTypes = {
   type: PropTypes.string.isRequired,

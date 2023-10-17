@@ -10,16 +10,24 @@ const app = express();
 // Importa o arquivo .env
 require('dotenv').config();
 
+// Importa as rotas
 const routes = require('./routes');
 
+// Importa o cors
+const cors = require('cors');
+
+// Importa a conexão com o banco de dados
 require('./config/mongoConfig');
 
+// Configura o cors
+app.use(cors());
+
+// Configura o express para receber requisições em json
 app.use(express.json());
+
+// Usa as rotas
 app.use(routes);
 
-app.get('/', (req, res) => {
-  res.send('Teste servidor');
-});
 
 // Porta que o app backend irá ouvir
 app.listen(3333);

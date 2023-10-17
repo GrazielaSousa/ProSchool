@@ -1,10 +1,10 @@
 import './table.scss';
 import { TableStudent } from './TableStudent.jsx';
 import { TableTeacher } from './TableTeacher.jsx';
-import alunosLista from './Json/alunos.json';
 import professorLista from './Json/professores.json';
 import { useEffect, useState } from 'react';
 import { Pagination } from '../../Pagination/Pagination.jsx';
+import api from '../../../../api/api.js';
 
 export const UsersTable = () => {
   const [itensPerPage, setItensPerPage] = useState(11);
@@ -12,14 +12,24 @@ export const UsersTable = () => {
   const [startPage, setStartPage] = useState(0);
   const [activeButton, setActiveButton] = useState('Aluno');
   const [filter, setFilter] = useState('');
+  const [allData, setAllData] = useState([]);
 
+  async function gellAllData() {
+    const response = await api.get('/');
+    setAllData(response.data);
+  }
+  
+  useEffect(() => {
+    gellAllData();
+  }, []);
+  
   useEffect(() => {
     setStartPage(currentPage);
   }, [currentPage]);
 
-  // Calcula paginação
-  const filteredAlunosLista = alunosLista.filter((item) =>
-    item.Nome.toLowerCase().includes(filter)
+  // Calcula paginação com base nos dados filtrados
+  const filteredData = allData.filter((item) =>
+    item.firstName.toLowerCase().includes(filter)
   );
 
   const filteredProfessorLista = professorLista.filter((item) =>
@@ -29,14 +39,14 @@ export const UsersTable = () => {
   // Calcula a quantidade de páginas com base nos dados filtrados
   const totalPages = Math.ceil(
     activeButton === 'Aluno'
-      ? filteredAlunosLista.length / itensPerPage
+      ? filteredData.length / itensPerPage
       : filteredProfessorLista.length / itensPerPage
   );
 
   // Calcula o índice final com base nos dados filtrados
   const endIndex = Math.min(
     activeButton === 'Aluno'
-      ? filteredAlunosLista.length
+      ? filteredData.length
       : filteredProfessorLista.length,
     startPage * itensPerPage + itensPerPage
   );
@@ -44,7 +54,7 @@ export const UsersTable = () => {
   // Obtém os dados a serem exibidos na página atual com base nos dados filtrados
   const currentItens =
     activeButton === 'Aluno'
-      ? filteredAlunosLista.slice(startPage * itensPerPage, endIndex)
+      ? filteredData.slice(startPage * itensPerPage, endIndex)
       : filteredProfessorLista.slice(startPage * itensPerPage, endIndex);
 
   const handlePageChange = (newPage) => {
@@ -59,8 +69,9 @@ export const UsersTable = () => {
 
   const handleChangeInput = (e) => {
     setFilter(e.target.value.toLowerCase());
-    console.log(filter);
   };
+
+    console.log(allData);
 
   return (
     <div className="main-users">

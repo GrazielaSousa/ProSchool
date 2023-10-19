@@ -26,6 +26,18 @@ export const RegistrarUsuario = () => {
   const [formData, setFormData] = useState(templateData);
   const [isFormValid, setIsFormValid] = useState(false);
 
+  const [fieldValidations, setFieldValidations] = useState({
+    firstName: false,
+    lastName: false,
+    email: false,
+    dateBirth: false,
+    cpf: false,
+    gender: false,
+    password: false,
+    confirmPassword: false,
+    // Adicione outros campos e defina-os como false
+  });
+
   const updateFieldData = (key, value) => {
     setFormData((prevState) => {
       return { ...prevState, [key]: value };
@@ -38,6 +50,8 @@ export const RegistrarUsuario = () => {
       formData={formData}
       updateFieldData={updateFieldData}
       setIsFormValid={setIsFormValid}
+      fieldValidations={fieldValidations}
+      setFieldValidations={setFieldValidations}
     />,
     <RegisterAddress
       key="register-address"
@@ -52,21 +66,21 @@ export const RegistrarUsuario = () => {
     />,
   ];
 
+  console.log(formData)
   const { currentStep, currentComponent, changeStep, isLastStep, isFirstStep } =
     useForm(stepsComponent);
 
-  async function handleSubmit() {
-    try {
-      const response = await api.post('/usuarios', {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error('Erro ao enviar dados para o servidor:', error);
-    }
-  }
-
+  // async function handleSubmit() {
+  //   try {
+  //     const response = await api.post('/usuarios', {
+  //       firstName: formData.firstName,
+  //       lastName: formData.lastName,
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error('Erro ao enviar dados para o servidor:', error);
+  //   }
+  // }
   return (
     <div className="c-container">
       <div className="container-register">
@@ -109,7 +123,7 @@ export const RegistrarUsuario = () => {
 
               {!isLastStep ? (
                 <button
-                  onClick={() => handleSubmit()}
+                  // onClick={() => handleSubmit()}
                   className={`button-next ${
                     currentStep >= 0 && isFormValid ? 'active' : 'inactive'
                   }`}

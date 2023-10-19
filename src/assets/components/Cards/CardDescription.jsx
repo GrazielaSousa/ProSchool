@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import './card_description.scss';
 import { perform } from '../Perform/perfom.js';
 
@@ -27,11 +27,11 @@ function CardDescription() {
   );
 }
 
-// Defina os tipos esperados para as props usando PropTypes
-CardDescription.propTypes = {
-  src: PropTypes.string.isRequired, // src deve ser uma string (caminho da imagem)
-  className: PropTypes.string, // className é opcional, mas se for fornecido, deve ser uma string
-  alt: PropTypes.string.isRequired, // alt deve ser uma string (texto alternativo para a imagem)
-};
+// // Defina os tipos esperados para as props usando PropTypes
+// CardDescription.propTypes = {
+//   src: PropTypes.string.isRequired, 
+//   className: PropTypes.string, 
+//   alt: PropTypes.string.isRequired, 
+// };
 
 export default CardDescription;

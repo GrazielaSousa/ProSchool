@@ -1,31 +1,32 @@
 import './select.scss';
 import PropTypes from 'prop-types';
 
-export const SelectFunction = ({ id, onChange, value }) => {
-  const handleSelectChange = (e) => {
-    const selectedValue = e.target.value;
-    onChange(selectedValue);
-  };
+export const SelectFunction = ({
+  id,
+  value,
+  options,
+  label,
+  text,
+}) => {
 
   return (
-    <div className="form">
+    <>
+      <label htmlFor="form_select" className="label-register">
+        {text}
+        <span className="material-icons-sharp emergency">emergency</span>
+      </label>
       <select
         id={id}
         value={value}
-        className={`form_select ${value ? 'active' : ''}`}
-        onChange={handleSelectChange}
+        className="input-register"
       >
-        <option value="" disabled hidden></option>
-        <option value="Aluno">Aluno</option>
-        <option value="Professor">Professor</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
-      <label
-        htmlFor="form_select"
-        className={`form_label ${value ? 'active' : ''}`}
-      >
-        Selecione uma função
-      </label>
-    </div>
+    </>
   );
 };
 
@@ -33,4 +34,7 @@ SelectFunction.propTypes = {
   id: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
+  options: PropTypes.array.isRequired,
+  label: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };

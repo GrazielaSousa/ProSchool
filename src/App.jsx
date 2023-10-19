@@ -1,4 +1,3 @@
-// import "./assets/styles/menu.scss";
 import { AppRouter } from './routes/Route.jsx';
 import { UserProvider } from './context/UserContext.jsx';
 

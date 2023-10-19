@@ -4,9 +4,10 @@ import { listMaterials } from './materials.js';
 import { useState } from 'react';
 import { MaterialsPdf } from '../Materials/MaterialsPdf.jsx';
 
-function MaterialStudent() {
+export const MaterialStudent = () => {
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [showPDF, setShowPDF] = useState(false);
+
 
   const handleBackClick = () => {
     setShowPDF(false);
@@ -23,11 +24,11 @@ function MaterialStudent() {
   return (
     <div>
       {showPDF ? (
-        <MaterialsPdf
-          materials={selectedMaterial}
-          onBackClick={handleBackClick}
-        />
-      ) : (
+          <MaterialsPdf
+            materials={selectedMaterial}
+            onBackClick={handleBackClick}
+          />
+        ) : (
         <div className="l-cards">
           {listMaterials.map((material, index) => (
             <article
@@ -52,5 +53,3 @@ function MaterialStudent() {
 MaterialStudent.propTypes = {
   listMaterials: PropTypes.object,
 };
-
-export default MaterialStudent;

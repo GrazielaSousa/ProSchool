@@ -9,14 +9,14 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('nomeUsuario');
-    if(storedUser) {
+    if (storedUser) {
       setNomeUsuario(storedUser);
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('nomeUsuario', nomeUsuario);
-  },[nomeUsuario]);
+  }, [nomeUsuario]);
 
   return (
     <UserContext.Provider value={{ nomeUsuario, setNomeUsuario }}>

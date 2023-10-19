@@ -18,7 +18,7 @@ export const TableStudent = ({ currentItens, filter }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredItens.map((usuario) => (
+          {filteredItens.filter(usuario => !usuario.admin).map((usuario) => (
             <tr key={usuario._id}>
               <td>{usuario.firstName}</td>
               {/* <td>{usuario.gender}</td>

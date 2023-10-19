@@ -66,10 +66,19 @@
   width: 100vw;
 }
 
+// .input-component {
+//   display: flex;  
+//   justify-content: center;
+//   // width: 92vw;
+//   gap: 13rem;
+//   margin-top: 40px;
+// }
+
 .input-component {
-  display: flex;  
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 500px);
+  gap: 2.3rem;
+  justify-items: center;
   justify-content: center;
-  // width: 92vw;
-  gap: 13rem;
-  margin-top: 40px;
 }

@@ -37,7 +37,7 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
 
       if (response.status === 200) {
         const data = response.data;
-        setNomeUsuario(data.firstName);
+        setNomeUsuario(data.firstName + " " + data.lastName);
         if(data.admin === true) {
           setTipoUsuarioLogado('admin');
         } else {

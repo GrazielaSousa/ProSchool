@@ -9,13 +9,24 @@ module.exports = {
 
   async createUser(request, response) {
     // Desestruturação das variaveis
-    const { firstName, lastName, password, email, admin } = request.body;
+    const {
+      firstName,
+      lastName,
+      admin,
+      email,
+      dateBirth,
+      cpf,
+      gender,
+      password,
+      address,
+      educationData,
+    } = request.body;
 
     try {
-      // const cpfExist = await User.findOne({ cpf });
+      const cpfExist = await User.findOne({ cpf });
       const emailExist = await User.findOne({ email });
 
-      if (emailExist) {
+      if (emailExist || cpfExist) {
         return response.status(400).json({ error: 'Usuário já existe' });
       }
 
@@ -23,7 +34,12 @@ module.exports = {
         firstName === '' ||
         lastName === '' ||
         password === '' ||
-        email === ''
+        email === '' ||
+        dateBirth === '' ||
+        cpf === '' ||
+        gender === '' ||
+        address === '' ||
+        educationData === ''
       ) {
         return response.status(400).json({ error: 'Preencha todos os campos' });
       }
@@ -34,9 +50,14 @@ module.exports = {
       await User.create({
         firstName,
         lastName,
-        password: passwordCrypt,
+        admin: false,
         email,
-        admin,
+        dateBirth,
+        cpf,
+        gender,
+        password: passwordCrypt,
+        address,
+        educationData,
       });
 
       return response.status(201).json('Seu usuário foi criado 🥰');
@@ -92,7 +113,12 @@ module.exports = {
         return response.status(401).json({ error: 'Senha incorreta' });
       }
 
-      response.status(200).json({ message: 'Autenticação bem-sucedida', admin: user.admin, firstName: user.firstName });
+      response.status(200).json({
+        message: 'Autenticação bem-sucedida',
+        admin: user.admin,
+        firstName: user.firstName,
+        lastName: user.lastName,
+      });
     } catch (error) {
       return response
         .status(400)

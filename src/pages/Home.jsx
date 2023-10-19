@@ -2,7 +2,7 @@ import Menu from '../assets/components/Menu/Menu.jsx';
 import MainSection from '../assets/components/Main/Main.jsx';
 import Header from '../assets/components/Header/Header.jsx';
 import '../assets/styles/home.scss';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PropTypes } from 'prop-types';
 
 function Home({ tipoUsuario }) {
@@ -11,18 +11,30 @@ function Home({ tipoUsuario }) {
   const [selectedMenuItem, setSelectedMenuItem] = useState(defaultMenuItem);
 
   useEffect(() => {
-    setSelectedMenuItem(defaultMenuItem);
-  }, [tipoUsuario]);
+    // Adicione um ouvinte de evento para detectar mudanças no tipo de usuário no localStorage
+    const handleStorageChange = (e) => {
+      if (e.key === 'tipoUsuario') {
+        setSelectedMenuItem(getDefaultItemMenu());
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      // Remova o ouvinte de evento ao desmontar o componente
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   // Função para obter o item de menu padrão com base no tipo de usuário
-  function getDefaultItemMenu(tipoUsuario) {
+  function getDefaultItemMenu() {
+    const tipoUsuario = localStorage.getItem('tipoUsuario');
     switch (tipoUsuario) {
       case 'aluno':
-        return 'Materiais'; // Defina o item de menu padrão para alunos
+        return 'Materiais'; 
       case 'admin':
-        return 'Dashboard'; // Defina o item de menu padrão para administradores
+        return 'Usuários'; 
       default:
-        return ''; // Valor padrão para outros tipos de usuário
+        return ''; 
     }
   }
 

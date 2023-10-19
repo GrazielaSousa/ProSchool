@@ -3,15 +3,16 @@ import './menu.scss';
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { tipoUsuario, menuTipoUsuario } from './sidebar.js';
+import { tipoUsuario, menuTipoUsuario, setTipoUsuarioLogado } from './sidebar.js';
 import { useNavigate } from 'react-router-dom';
 
 const Sidebar = ({ onMenuItemClick }) => {
-  // Defina o estado activeLink para o primeiro item do menu no início
-  const [activeLink, setActiveLink] = useState(
-    menuTipoUsuario[tipoUsuario][0]?.label
-  );
+  const [activeLink, setActiveLink] = useState(menuTipoUsuario[tipoUsuario][0]?.label);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = activeLink;
+   }, [activeLink]);
 
   // Função para alterar o nome do item menu que clicou
   const changePageTitle = (event, menuItem) => {
@@ -19,7 +20,6 @@ const Sidebar = ({ onMenuItemClick }) => {
     onMenuItemClick(menuItem);
   };
 
-  /* ===== TRATA A EXPANSAO DO MENU */
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLinkMenu, setActiveLinkMenu] = useState(null); //
 
@@ -41,7 +41,6 @@ const Sidebar = ({ onMenuItemClick }) => {
       setMenuOpen(false);
     }
 
-    // Limpe o status "ativo" após 3 segundos (3000 ms)
     setTimeout(() => {
       // Verifica se event.currentTarget ainda é válido antes de remover a classe "active"
       if (event.currentTarget) {
@@ -80,7 +79,6 @@ const Sidebar = ({ onMenuItemClick }) => {
 
   return (
     <div className="container-sidebar">
-      {/* Logo do SITE */}
       <aside style={{ display: menuOpen ? 'block' : 'none' }}>
         <div className="top">
           <div className="logo">
@@ -94,7 +92,6 @@ const Sidebar = ({ onMenuItemClick }) => {
           </div>
         </div>
 
-        {/** MENU LATERAL */}
         <nav className="sidebar">
           {menuTipoUsuario[tipoUsuario].map((menuItem, index) => (
             <Link
@@ -108,7 +105,6 @@ const Sidebar = ({ onMenuItemClick }) => {
                   manipulateClickSidebar(event, menuItem.label);
                   changePageTitle(event, menuItem.label);
                   setActiveLinkMenu(menuItem.label);
-                  // getActiveLinkMenu(menuItem.label);
                 }
               }}
               className={menuItem.label === activeLink ? 'active' : ''}
@@ -131,9 +127,8 @@ const Sidebar = ({ onMenuItemClick }) => {
   );
 };
 
-// Definir os PropTypes para o componente Sidebar
 Sidebar.propTypes = {
-  onMenuItemClick: PropTypes.func.isRequired, // onMenuItemClick deve ser uma função obrigatória
+  onMenuItemClick: PropTypes.func.isRequired,
 };
 
 export default Sidebar;

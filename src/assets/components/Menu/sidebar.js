@@ -7,7 +7,6 @@ export function setTipoUsuarioLogado(valor) {
   localStorage.setItem('tipoUsuario', valor);
 }
 
-
 export const menuTipoUsuario = {
   aluno: [
     { label: 'Materiais', link: '/Materiais', icon: 'collections_bookmark' },
@@ -15,9 +14,9 @@ export const menuTipoUsuario = {
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],
   admin: [
-    { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
     { label: 'Usuários', link: '/Usuarios', icon: 'people_alt' },
     { label: 'Cadastrar usuário', link: '/Professores', icon: 'person' },
+    {label: 'Adicional material', link: '/AdicionalMaterial', icon: 'add'},
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],
 };

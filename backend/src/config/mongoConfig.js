@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-let user = process.env.NODE_USER;
-let password = process.env.NODE_PASS;
-
-const urlMongo = `mongodb+srv://${user}:${password}@cluster-1.irgwhx1.mongodb.net/proschool?retryWrites=true&w=majority`;
+const urlMongo = `mongodb+srv://${process.env.NODE_USER}:${process.env.NODE_PASS}${process.env.DB_CLUSTER}.irgwhx1.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 mongoose.connect(urlMongo, {
   useNewUrlParser: true,

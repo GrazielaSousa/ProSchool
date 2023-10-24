@@ -20,6 +20,14 @@ const templateData = {
   cpf: '',
   gender: '',
   password: '',
+  confirmPassword: '',
+  cep: '',
+  address: '',
+  neighborhood: '',
+  complement: '',
+  city: '',
+  state: '',
+  enrollmentNumber: '',
 };
 
 export const RegistrarUsuario = () => {
@@ -35,6 +43,15 @@ export const RegistrarUsuario = () => {
     gender: false,
     password: false,
     confirmPassword: false,
+    cep: false,
+    address: false,
+    neighborhood: false,
+    complement: false,
+    city: false,
+    state: false,
+    enrollmentNumber: false,
+    degree: false,
+
     // Adicione outros campos e defina-os como false
   });
 
@@ -58,21 +75,27 @@ export const RegistrarUsuario = () => {
       formData={formData}
       updateFieldData={updateFieldData}
       setIsFormValid={setIsFormValid}
+      setFormData={setFormData}
+      fieldValidations={fieldValidations}
+      setFieldValidations={setFieldValidations}
     />,
     <RegisterSchool
       key="register-school"
       formData={formData}
       updateFieldData={updateFieldData}
+      setIsFormValid={setIsFormValid}
+      fieldValidations={fieldValidations}
+      setFieldValidations={setFieldValidations}
     />,
   ];
 
-  console.log(formData)
+  // console.log(formData);
   const { currentStep, currentComponent, changeStep, isLastStep, isFirstStep } =
     useForm(stepsComponent);
 
   // async function handleSubmit() {
   //   try {
-  //     const response = await api.post('/usuarios', {
+  //     const response = await api.post('/users', {
   //       firstName: formData.firstName,
   //       lastName: formData.lastName,
   //     });
@@ -81,6 +104,7 @@ export const RegistrarUsuario = () => {
   //     console.error('Erro ao enviar dados para o servidor:', error);
   //   }
   // }
+
   return (
     <div className="c-container">
       <div className="container-register">
@@ -145,20 +169,20 @@ export const RegistrarUsuario = () => {
               ) : (
                 <button
                   className={`button-next ${
-                    currentStep >= 0 ? 'active' : 'inactive'
+                    currentStep >= 0 && isFormValid ? 'active' : 'inactive'
                   }`}
                   type="button"
                 >
                   <span
                     className={`text-button-register ${
-                      currentStep >= 0 ? 'active' : 'inactive'
+                      currentStep >= 0  && isFormValid ? 'active' : 'inactive'
                     }`}
                   >
                     Enviar
                   </span>
                   <RxCheck
                     className={`icon-register ${
-                      currentStep >= 0 ? 'active' : 'inactive'
+                      currentStep >= 0 && isFormValid ? 'active' : 'inactive'
                     }`}
                   />
                 </button>

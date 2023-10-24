@@ -2,6 +2,8 @@ import './formsRegister.scss';
 import { useForm } from 'react-hook-form';
 import { PropTypes } from 'prop-types';
 import { useState } from 'react';
+import { cpf } from 'cpf-cnpj-validator';
+import api from './../../../api/api';
 
 export const RegisterData = ({
   updateFieldData,
@@ -10,7 +12,7 @@ export const RegisterData = ({
   fieldValidations,
   setFieldValidations,
 }) => {
-  const { register } = useForm();
+  // const { register } = useForm();
 
   const [selectedGender, setSelectedGender] = useState('');
   const [errors, setErrors] = useState({});
@@ -41,6 +43,7 @@ export const RegisterData = ({
       .replace(/(\d{3})(\d)/, '$1-$2')
       .replace(/(-\d{2})\d+?$/, '$1');
   };
+
   const handleFieldChange = (e, fieldName) => {
     let value = e.target.value;
     console.log(value);
@@ -51,17 +54,22 @@ export const RegisterData = ({
 
     if (fieldName === 'cpf') {
       value = cpfMask(value);
-    }
-
-    if(fieldName === 'confirmPassword') {
-      if(value !== formData.password) {
-        setErrors({confirmPassword: 'Senhas não coincidem'})
-        console.log(errors);
+      if (cpf.isValid(value)) {
+        console.log(cpf.isValid(value));
+        setErrors({ cpf: '' });
       } else {
-        setErrors({confirmPassword: ''})
+        setErrors({ cpf: 'CPF inválido' });
       }
     }
 
+    if (fieldName === 'confirmPassword') {
+      if (value !== formData.password) {
+        setErrors({ confirmPassword: 'Senhas não coincidem' });
+        console.log(errors);
+      } else {
+        setErrors({ confirmPassword: '' });
+      }
+    }
 
     const isFieldValid = value.trim() !== '';
     updateFieldData(fieldName, value);
@@ -86,7 +94,39 @@ export const RegisterData = ({
     setIsFormValid(isFormValid);
   };
 
+  async function getCpfOrEmail(cpfOrEmail) {
+    if (!cpfOrEmail) return;
+
+    try {
+      console.log(`/user/data/${cpfOrEmail}`);
+      const response = await api.get(`/user/data/${cpfOrEmail}`);
+
+      const { id, message, email, cpf } = response.data;
+      console.log(response.data);
+
+      if (id === 'email' && email === formData.email) {
+        setErrors({ email: message });
+        console.log('if do email');
+
+      } else if (id === 'cpf' && cpf === formData.cpf) {
+        setErrors({ cpf: message });
+        console.log('if do cpf');
+      } else {
+        setErrors({ email: '' });
+        setErrors({ cpf: '' });
+      }
+    } catch (error) {
+      console.log(error);
+      console.log('caiu na merda do catch');
+      setErrors({});
+    }
+  }
+
   const handleBlur = (e, fieldName) => {
+    if (fieldName === 'email' || fieldName === 'cpf') {
+      getCpfOrEmail(e.target.value);
+    }
+
     if (!e.target.value || e.target.value.trim() === '') {
       const span = e.target.parentNode.querySelector(
         '.material-icons-sharp.emergency'
@@ -118,7 +158,6 @@ export const RegisterData = ({
     }));
   };
 
-
   return (
     <>
       <div className="forms-register">
@@ -129,10 +168,6 @@ export const RegisterData = ({
         <input
           minLength="3"
           required
-          // {...register('firstName', {
-          //   required: true,
-          //   minLength: 3,
-          // })}
           type="text"
           name="firstName"
           id="firstName"
@@ -150,10 +185,6 @@ export const RegisterData = ({
         </label>
         <input
           required
-          {...register('lastName', {
-            required: true,
-            minLength: 3,
-          })}
           type="text"
           name="lastName"
           id="lastName"
@@ -181,6 +212,7 @@ export const RegisterData = ({
           onChange={(e) => handleFieldChange(e, 'email', setIsFormValid)}
           onBlur={(e) => handleBlur(e, 'email')}
         />
+        {errors && <small className="error-input">{errors.email}</small>}
       </div>
 
       <div className="forms-register">
@@ -203,7 +235,7 @@ export const RegisterData = ({
       </div>
 
       <div className="forms-register">
-        <label htmlFor="dateBirth" className="label-register">
+        <label htmlFor="cpf" className="label-register">
           CPF
           <span className="material-icons-sharp emergency">emergency</span>
         </label>
@@ -219,18 +251,19 @@ export const RegisterData = ({
           onChange={(e) => handleFieldChange(e, 'cpf', setIsFormValid)}
           onBlur={(e) => handleBlur(e, 'cpf')}
         />
+        {errors && <small className="error-input">{errors.cpf}</small>}
       </div>
 
       <div className="forms-register">
         <label htmlFor="gender" className="label-register">
-          Selecione o gênero{' '}
+          Selecione o gênero
           <span className="material-icons-sharp emergency">emergency</span>
         </label>
         <select
           id="gender"
           name="gender"
           className="select-register"
-          value={selectedGender}
+          value={selectedGender || ''}
           onChange={handleGenderChange}
           onBlur={handleBlur}
         >
@@ -243,7 +276,7 @@ export const RegisterData = ({
       </div>
 
       <div className="forms-register">
-        <label htmlFor="dateBirth" className="label-register">
+        <label htmlFor="password" className="label-register">
           Senha
           <span className="material-icons-sharp emergency">emergency</span>
         </label>
@@ -261,7 +294,7 @@ export const RegisterData = ({
         />
       </div>
       <div className="forms-register">
-        <label htmlFor="dateBirth" className="label-register">
+        <label htmlFor="confirmPassword" className="label-register">
           Senha
           <span className="material-icons-sharp emergency">emergency</span>
         </label>
@@ -274,10 +307,14 @@ export const RegisterData = ({
           type="password"
           className="input-register"
           value={formData.confirmPassword || ''}
-          onChange={(e) => handleFieldChange(e, 'confirmPassword', setIsFormValid)}
+          onChange={(e) =>
+            handleFieldChange(e, 'confirmPassword', setIsFormValid)
+          }
           onBlur={(e) => handleBlur(e, 'confirmPassword')}
         />
-      {errors.confirmPassword && <small className='error-password'>{errors.confirmPassword}</small>}
+        {errors.confirmPassword && (
+          <small className="error-input">{errors.confirmPassword}</small>
+        )}
       </div>
     </>
   );

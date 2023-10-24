@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const DocumentSchema = new mongoose.Schema({
   // Arquivos PDF
-  titulo: String,
+  title: String,
   path: String,
-  materia: String,
+  subject: String,
+  level: String,
 });
 
 module.exports = mongoose.model('Document', DocumentSchema);

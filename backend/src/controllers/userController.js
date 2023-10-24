@@ -19,7 +19,7 @@ module.exports = {
       gender,
       password,
       address,
-      educationData,
+      educationalData,
     } = request.body;
 
     try {
@@ -27,7 +27,17 @@ module.exports = {
       const emailExist = await User.findOne({ email });
 
       if (emailExist || cpfExist) {
-        return response.status(400).json({ error: 'Usuário já existe' });
+        const errors = {};
+
+        // if (emailExist) {
+        //   errors.email = { id: 'email', message: 'Email já cadastrado' };
+        // }
+
+        // if (cpfExist) {
+        //   errors.cpf = { id: 'cpf', message: 'CPF já cadastrado' };
+        // }
+
+        return response.status(400).json({ errors });
       }
 
       if (
@@ -36,10 +46,11 @@ module.exports = {
         password === '' ||
         email === '' ||
         dateBirth === '' ||
+        admin === '' ||
         cpf === '' ||
         gender === '' ||
         address === '' ||
-        educationData === ''
+        educationalData === ''
       ) {
         return response.status(400).json({ error: 'Preencha todos os campos' });
       }
@@ -50,32 +61,30 @@ module.exports = {
       await User.create({
         firstName,
         lastName,
-        admin: false,
+        admin,
         email,
         dateBirth,
         cpf,
         gender,
         password: passwordCrypt,
         address,
-        educationData,
+        educationalData,
       });
 
       return response.status(201).json('Seu usuário foi criado 🥰');
     } catch (error) {
-      return response
-        .status(400)
-        .json({ error: 'Erro na validação: ' + error.message });
+      return response.status(400).json({ error });
     }
   },
 
   async updateUser(request, response) {
-    const { firstName } = request.body;
+    const { cpf } = request.body;
     const { id } = request.params;
 
     // _id é a chave primaria do mongo e id é o parametro que passamos na rota
     const userExist = await User.findOneAndUpdate(
       { _id: id },
-      { firstName: firstName },
+      { cpf: cpf },
       { new: true }
     );
 
@@ -124,5 +133,40 @@ module.exports = {
         .status(400)
         .json({ error: 'Erro na validação: ' + error.message });
     }
+  },
+
+  async validEnrollmentNumber(request, response) {
+    const enrollmentNumber = request.params.enrollmentNumber;
+
+    console.log('Matrícula: ' + request.params.enrollmentNumber);
+
+    const userEnrollmentNumber = await User.findOne({
+      'educationalData.enrollmentNumber': enrollmentNumber,
+    });
+
+    if (userEnrollmentNumber) {
+      return response
+        .status(409)
+        .json({ error: 'Matrícula já cadastrada em sistema' });
+    }
+
+    response.status(200).json({ message: 'Matrícula não encontrada' });
+  },
+  
+  async validEmailOrCpf(request, response) {
+    const data = request.params.data.cpf;
+    // const data = request.params.data;
+    console.log('===========');
+    console.log('dados ' + request.params.data);
+
+    const cpfExist = await User.findOne({ cpf: data });
+    // const emailExist = await User.findOne({ email: email });
+    console.log('cpf achado = ' + cpfExist);
+    // console.log('email achado = ' + emailExist);
+    if (cpfExist) {
+      return response.status(200).json({ message: 'CPF já cadastrado' });
+    } 
+
+    return response.status(200).json({ message: 'CPF ou E-mail disponível' });
   },
 };

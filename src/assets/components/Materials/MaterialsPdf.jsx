@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 export const MaterialsPdf = ({ materials, onBackClick }) => {
   // Alterar de acordo com o retorno do GET no MONGODB
-  const [materialsExisting, setMaterialsExisting] = useState(true);
+  const [materialsExisting, setMaterialsExisting] = useState(false);
 
   const handleBackClick = () => {
     onBackClick();

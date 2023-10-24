@@ -19,6 +19,7 @@
   border: 2px solid $input-gray-1;
   border-radius: $border-radius-1;
   height: 50px;
+  appearance: auto;
 }
 
 .option {
@@ -40,7 +41,7 @@
   border: 2px solid $text-color-purple;
 }
 
-.material-icons-sharp.emergency.error , .error-password {
+.material-icons-sharp.emergency.error , .error-input {
   color: $color-red-danger;
 }
 

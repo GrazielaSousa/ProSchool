@@ -76,7 +76,7 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
 
         <div className="form">
           <input
-            type="text"
+            type="password"
             id="password"
             autoComplete="off"
             {...register('password', {

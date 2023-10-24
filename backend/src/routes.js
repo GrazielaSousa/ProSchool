@@ -6,12 +6,18 @@ const userController = require('./controllers/userController');
 
 // Rota Usuarios
 routes.get('/', userController.getUser);
-routes.post('/usuarios', userController.createUser);
-routes.patch('/usuarios/:id', userController.updateUser);
-routes.delete('/usuarios/:id', userController.deleteUser);
+routes.post('/users', userController.createUser);
+routes.patch('/users/:id', userController.updateUser);
+routes.delete('/users/:id', userController.deleteUser);
 
 // Rota Login
 routes.post('/login', userController.loginUser);
+
+// Rota consultar matricula
+routes.get('/user/:enrollmentNumber', userController.validEnrollmentNumber);
+
+// Rota para consultar E-mail ou CPF
+routes.get('/user/data/:data', userController.validEmailOrCpf);
 
 // Rotas documentos PDF
 

@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     dateBirth: String,
-    cpf :{
+    cpf:{
       type: String,
       unique: true,
     },

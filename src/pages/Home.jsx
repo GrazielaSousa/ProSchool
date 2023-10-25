@@ -30,7 +30,15 @@ function Home({ tipoUsuario }) {
     const tipoUsuario = localStorage.getItem('tipoUsuario');
     switch (tipoUsuario) {
       case 'aluno':
+<<<<<<< HEAD
         return 'Materiais'; 
+=======
+        return 'Dashboard'; // Defina o item de menu padrão para alunos
+      case 'professor':
+        return 'Dashboard'; // Defina o item de menu padrão para professores
+      case 'responsavel':
+        return 'Dados do Aluno'; // Defina o item de menu padrão para responsáveis
+>>>>>>> parent of 67f6227 (Servidor backend)
       case 'admin':
         return 'Usuários'; 
       default:

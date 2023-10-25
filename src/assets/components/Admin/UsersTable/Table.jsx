@@ -57,6 +57,7 @@ export const UsersTable = () => {
           placeholder="Buscar"
           value={filter}
         />
+        {/* <a href='#'><span className="icon-search material-icons-sharp">search</span></a> */}
       </div>
       <div className="table-container">
         <TableStudent currentItens={currentItens} filter={filter} />

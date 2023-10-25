@@ -16,23 +16,6 @@ export const menuTipoUsuario = {
     { label: 'Configurações', link: '/Configurações', icon: 'settings' },
     { label: 'Sair', link: '/Sair', icon: 'logout' },
   ],
-<<<<<<< HEAD
-=======
-  professor: [
-    { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
-    { label: 'Alunos', link: '/Alunos', icon: 'school' },
-    // { label: 'Atividades', link: '/Atividades', icon: 'task_alt' },
-    { label: 'Materiais', link: '/Materiais', icon: 'collections_bookmark' },
-    { label: 'Configurações', link: '/Configurações', icon: 'settings' },
-    { label: 'Sair', link: '/Sair', icon: 'logout' },
-  ],
-  responsavel: [
-    // { label: 'Dashboard', link: '/Dashboard', icon: 'grid_view' },
-    { label: 'Dados do Aluno', link: '/DadosAluno', icon: 'description' },
-    { label: 'Configurações', link: '/Configurações', icon: 'settings' },
-    { label: 'Sair', link: '/Sair', icon: 'logout' },
-  ],
->>>>>>> parent of 67f6227 (Servidor backend)
   admin: [
     { label: 'Usuários', link: '/Usuarios', icon: 'people_alt' },
     { label: 'Cadastrar usuário', link: '/Professores', icon: 'person' },

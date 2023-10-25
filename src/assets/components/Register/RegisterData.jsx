@@ -98,26 +98,21 @@ export const RegisterData = ({
     if (!cpfOrEmail) return;
 
     try {
-      console.log(`/user/data/${cpfOrEmail}`);
       const response = await api.get(`/user/data/${cpfOrEmail}`);
 
-      const { id, message, email, cpf } = response.data;
-      console.log(response.data);
+      const { errorID, message, data } = response.data;
+      console.log(data);
 
-      if (id === 'email' && email === formData.email) {
+      if (errorID === 'email' && data === formData.email) {
         setErrors({ email: message });
-        console.log('if do email');
 
-      } else if (id === 'cpf' && cpf === formData.cpf) {
+      } else if (errorID === 'cpf' && data === formData.cpf) {
         setErrors({ cpf: message });
-        console.log('if do cpf');
       } else {
         setErrors({ email: '' });
         setErrors({ cpf: '' });
       }
     } catch (error) {
-      console.log(error);
-      console.log('caiu na merda do catch');
       setErrors({});
     }
   }

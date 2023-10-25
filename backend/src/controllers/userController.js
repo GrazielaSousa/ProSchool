@@ -152,20 +152,22 @@ module.exports = {
 
     response.status(200).json({ message: 'Matrícula não encontrada' });
   },
-  
+
   async validEmailOrCpf(request, response) {
-    const data = request.params.data.cpf;
-    // const data = request.params.data;
-    console.log('===========');
-    console.log('dados ' + request.params.data);
+    const data = request.params.data;
 
     const cpfExist = await User.findOne({ cpf: data });
-    // const emailExist = await User.findOne({ email: email });
-    console.log('cpf achado = ' + cpfExist);
-    // console.log('email achado = ' + emailExist);
+    const emailExist = await User.findOne({ email: data });
+
     if (cpfExist) {
-      return response.status(200).json({ message: 'CPF já cadastrado' });
-    } 
+      return response
+        .status(200)
+        .json({ message: 'CPF já existe em sistema', errorID: 'cpf', data: data });
+    } else if (emailExist) {
+      return response
+        .status(200)
+        .json({ message: 'E-mail já existe em sistema', errorID: 'email', data: data });
+    }
 
     return response.status(200).json({ message: 'CPF ou E-mail disponível' });
   },

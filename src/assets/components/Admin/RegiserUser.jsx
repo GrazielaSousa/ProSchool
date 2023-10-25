@@ -28,6 +28,8 @@ const templateData = {
   city: '',
   state: '',
   enrollmentNumber: '',
+  degree: '',
+  period: '',
 };
 
 export const RegistrarUsuario = () => {
@@ -51,7 +53,7 @@ export const RegistrarUsuario = () => {
     state: false,
     enrollmentNumber: false,
     degree: false,
-
+    period: false,
     // Adicione outros campos e defina-os como false
   });
 
@@ -88,8 +90,6 @@ export const RegistrarUsuario = () => {
       setFieldValidations={setFieldValidations}
     />,
   ];
-
-  // console.log(formData);
   const { currentStep, currentComponent, changeStep, isLastStep, isFirstStep } =
     useForm(stepsComponent);
 

@@ -23,7 +23,6 @@ export const RegisterSchool = ({
   const handlePeriodChange = (event) => {
     const selectedValue = event.target.value;
     if (selectedValue === selectedPeriod) {
-      // Força a atualização do estado definindo-o como nulo temporariamente
       setSelectedPeriod(null);
     } else {
       setSelectedPeriod(selectedValue);
@@ -37,12 +36,21 @@ export const RegisterSchool = ({
     let isFieldValid;
 
     if (fieldName === 'enrollmentNumber') {
-      if(enrollmentNumberExist) {
+      if (enrollmentNumberExist) {
         isFieldValid = false;
       } else {
         isFieldValid = true;
       }
     }
+
+    if (fieldName === 'degree' || fieldName === 'period') {
+      if (value !== '') {
+        isFieldValid = true;
+      } else {
+        isFieldValid = false;
+      }
+    }
+
     updateFieldData(fieldName, value);
     updateValidation(fieldName, isFieldValid);
 
@@ -62,12 +70,12 @@ export const RegisterSchool = ({
   };
 
   async function getEnrollmentNumber(enrollmentNumber) {
-    if(!enrollmentNumber) return;
-    
+    if (!enrollmentNumber) return;
+
     try {
       const response = await api.get(`/user/${enrollmentNumber}`);
 
-      if (response.status === 409 ) {
+      if (response.status === 409) {
         setEnrollmentNumberExist(true);
       } else if (response.status === 200) {
         setEnrollmentNumberExist(null);
@@ -80,6 +88,7 @@ export const RegisterSchool = ({
   const handleBlur = (e, fieldName) => {
     if (fieldName === 'enrollmentNumber') {
       getEnrollmentNumber(e.target.value);
+      console.log('turma: ' + e.target.value);
     }
     const span = e.target.parentNode.querySelector(
       '.material-icons-sharp.emergency'
@@ -197,7 +206,9 @@ export const RegisterSchool = ({
           }
           onBlur={(e) => handleBlur(e, 'enrollmentNumber')}
         />
-        {enrollmentNumberExist && <p className="error-message">Matrícula ja cadastrada em sistema</p>}
+        {enrollmentNumberExist && (
+          <p className="error-message">Matrícula ja cadastrada em sistema</p>
+        )}
       </div>
     </>
   );

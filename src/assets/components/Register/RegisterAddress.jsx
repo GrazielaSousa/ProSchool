@@ -11,7 +11,7 @@ export const RegisterAddress = ({
   setFieldValidations,
   setFormData,
 }) => {
-  const { setValue } = useForm();
+  const {setValue } = useForm();
   const [uf, setUf] = useState([]);
 
   useEffect(() => {
@@ -34,9 +34,7 @@ export const RegisterAddress = ({
     let value = e.target.value;
 
     if (fieldName === 'cep') {
-      // formatar o cep
       value = formatCEP(value);
-      // console.log(value);
     }
 
     const isFieldValid = value.trim() !== '';
@@ -60,14 +58,15 @@ export const RegisterAddress = ({
       fetch(`https://viacep.com.br/ws/${cep}/json/`).then((response) =>
         response.json().then((data) => {
           if (data.logradouro) {
-            setValue('address', data.logradouro, { shouldValidate: true });
-            setValue('neighborhood', data.bairro, { shouldValidate: true });
-            setValue('complement', data.complemento, { shouldValidate: true });
-            setValue('city', data.localidade, { shouldValidate: true });
+            // setValue('address', data.logradouro, { shouldValidate: true });
+            // setValue('neighborhood', data.bairro, { shouldValidate: true });
+            // setValue('complement', data.complemento, { shouldValidate: true });
+            // setValue('city', data.localidade, { shouldValidate: true });
 
             // Busca pela sigla da UF a UF por extenso
             const stateExtension = uf.find((uf) => uf.sigla === data.uf);
-            setValue('state', stateExtension.nome, { shouldValidate: true });
+            // setValue('state', stateExtension.nome, { shouldValidate: true });
+            console.log('estado por extenso: ' + stateExtension.nome);
 
             setFormData((prevData) => ({
               ...prevData,
@@ -78,14 +77,28 @@ export const RegisterAddress = ({
               state: stateExtension.nome,
             }));
 
+            console.log('endereço : ' + formData.address);
+            console.log('==============');
+
             setFieldValidations((prevValidations) => ({
               ...prevValidations,
+              city: true,
               address: true,
               neighborhood: true,
+              state: true,
             }));
           } else {
             setValue('address', '');
-            setFormData({ ...formData, address: '' });
+            setValue('neighborhood', '');
+            setValue('city', '');
+            setValue('state', '');
+            setFormData({
+              ...formData,
+              address: '',
+              neighborhood: '',
+              city: '',
+              state: '',
+            });
           }
         })
       );
@@ -113,8 +126,8 @@ export const RegisterAddress = ({
         [fieldName]: true,
       }));
     }
-    console.log(fieldValidations);
   };
+  console.log(fieldValidations);
 
   const updateValidation = (key, isValid) => {
     setFieldValidations((prevValidations) => ({

@@ -1,0 +1,8 @@
+@import "../../styles/variables.scss";
+
+@media screen and (max-width: 1200px) {
+  .container-dash {
+    overflow-y: auto;
+    height: 100vh;
+  }
+}

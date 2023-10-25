@@ -1,0 +1,62 @@
+@import "../../styles/variables.scss";
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #f7f7f7;
+  height: 70px;
+  border-radius: $border-radius-2;
+  justify-content: space-between;
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #E6E8F7; /* Cor de fundo roxo claro */
+  border-radius: 50%; /* Transforma em um círculo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  overflow: hidden; /* Para garantir que a imagem fique dentro do círculo */
+}
+
+.svg-image {
+  max-width: 70%;
+  max-height: 70%;
+}
+
+.item span {
+  font-size: 1.4rem;
+  font-family: $font-primary;
+}
+
+.item .icon-span span {
+  margin-left: 5px;
+  color: $text-color-blue;
+}
+
+.item .nota {
+  margin-right: 10px;
+  display: flex;
+  flex-direction: row;;
+  font-weight: 700;
+  align-items: baseline;
+}
+
+// Muda a cor da nota quando passa mouse no elemento .item
+.item:hover .nota {
+  color: $text-color-purple;
+}
+
+.nota-default {
+  color: #A7A5A5;
+  font-weight: 400;
+}
+
+.icon-span {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

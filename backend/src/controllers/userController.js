@@ -18,8 +18,8 @@ module.exports = {
       cpf,
       gender,
       password,
-      address,
-      educationalData,
+      address: { zip, street, neighborhood, complement, city, state },
+      educationalData: { degree, classroom, period, enrollmentNumber },
     } = request.body;
 
     try {
@@ -27,32 +27,9 @@ module.exports = {
       const emailExist = await User.findOne({ email });
 
       if (emailExist || cpfExist) {
-        const errors = {};
+        const errors = { message: 'E-Mail ou CPF já existe' };
 
-        // if (emailExist) {
-        //   errors.email = { id: 'email', message: 'Email já cadastrado' };
-        // }
-
-        // if (cpfExist) {
-        //   errors.cpf = { id: 'cpf', message: 'CPF já cadastrado' };
-        // }
-
-        return response.status(400).json({ errors });
-      }
-
-      if (
-        firstName === '' ||
-        lastName === '' ||
-        password === '' ||
-        email === '' ||
-        dateBirth === '' ||
-        admin === '' ||
-        cpf === '' ||
-        gender === '' ||
-        address === '' ||
-        educationalData === ''
-      ) {
-        return response.status(400).json({ error: 'Preencha todos os campos' });
+        return response.status(400).json({ Erro: errors });
       }
 
       const passwordCrypt = bcrypt.hashSync(password, 6);
@@ -67,32 +44,52 @@ module.exports = {
         cpf,
         gender,
         password: passwordCrypt,
-        address,
-        educationalData,
+        address: {
+          zip,
+          street,
+          neighborhood,
+          complement,
+          city,
+          state,
+        },
+        educationalData: {
+          degree,
+          classroom,
+          period,
+          enrollmentNumber,
+        },
       });
 
-      return response.status(201).json('Seu usuário foi criado 🥰');
+      return response
+        .status(201)
+        .json({ message: 'Usuário criado com sucesso' });
     } catch (error) {
       return response.status(400).json({ error });
     }
   },
 
   async updateUser(request, response) {
-    const { cpf } = request.body;
     const { id } = request.params;
 
-    // _id é a chave primaria do mongo e id é o parametro que passamos na rota
-    const userExist = await User.findOneAndUpdate(
-      { _id: id },
-      { cpf: cpf },
-      { new: true }
-    );
+    try {
+      const userInfo = await User.findById({ _id: id });
+      if (!userInfo) {
+        return response.status(404).json({ error: 'Usuário não encontrado!' });
+      }
+      // Desestruturação das variaveis
+      const updatedUserInfo = {
+        ...userInfo.toObject(),
+        ...request.body,
+      };
+      // Atualiza o user
+      const updatedUser = await User.findByIdAndUpdate(id, updatedUserInfo, {
+        new: true,
+      });
 
-    if (!userExist) {
-      return response.json({ error: 'Usuário não existe' });
+      return response.json(updatedUser);
+    } catch (error) {
+      return response.status(400).json({ error });
     }
-
-    response.send(userExist);
   },
 
   async deleteUser(request, response) {
@@ -123,10 +120,12 @@ module.exports = {
       }
 
       response.status(200).json({
-        message: 'Autenticação bem-sucedida',
         admin: user.admin,
         firstName: user.firstName,
         lastName: user.lastName,
+        educationalData: {
+          degree: user.educationalData.degree,
+        },
       });
     } catch (error) {
       return response
@@ -138,7 +137,6 @@ module.exports = {
   async validEnrollmentNumber(request, response) {
     const enrollmentNumber = request.params.enrollmentNumber;
 
-    console.log('Matrícula: ' + request.params.enrollmentNumber);
 
     const userEnrollmentNumber = await User.findOne({
       'educationalData.enrollmentNumber': enrollmentNumber,
@@ -160,13 +158,17 @@ module.exports = {
     const emailExist = await User.findOne({ email: data });
 
     if (cpfExist) {
-      return response
-        .status(200)
-        .json({ message: 'CPF já existe em sistema', errorID: 'cpf', data: data });
+      return response.status(200).json({
+        message: 'CPF já existe em sistema',
+        errorID: 'cpf',
+        data: data,
+      });
     } else if (emailExist) {
-      return response
-        .status(200)
-        .json({ message: 'E-mail já existe em sistema', errorID: 'email', data: data });
+      return response.status(200).json({
+        message: 'E-mail já existe em sistema',
+        errorID: 'email',
+        data: data,
+      });
     }
 
     return response.status(200).json({ message: 'CPF ou E-mail disponível' });

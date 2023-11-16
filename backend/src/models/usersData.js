@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
+
 const UserSchema = new mongoose.Schema(
   {
     // Usuarios
@@ -28,7 +29,7 @@ const UserSchema = new mongoose.Schema(
     },
     educationalData: {
       degree: String,
-      class: String,
+      classroom: String,
       period: String,
       enrollmentNumber: String,
     },

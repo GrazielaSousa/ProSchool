@@ -1,11 +1,11 @@
 import './main.scss';
 import PropTypes from 'prop-types';
 import Dashboard from '../Dashboard/Dashboard';
-import Desempenho from '../Perform/Perform';
 import Material from '../Materials/Materials';
 import { RegistrarUsuario } from '../Admin/RegiserUser.jsx';
 import { UsersTable } from '../Admin/UsersTable/Table.jsx';
 import { UploadMaterial } from '../Materials/UploadMaterial.jsx';
+import { AllMaterials } from '../Materials/AllMaterials.jsx';
 
 function MainSection({ selectedMenuItem }) {
 
@@ -13,11 +13,11 @@ function MainSection({ selectedMenuItem }) {
   const componentMap = {
     // label do meu : component
     Dashboard: Dashboard,
-    Desempenho: Desempenho,
     Materiais: Material,
     'Usuários': UsersTable,
     'Cadastrar usuário': RegistrarUsuario,
     'Adicional material': UploadMaterial,
+    'Todos materiais': AllMaterials,
   };
   // Atribui o valor correspondente ao objeto que foi clicado
   const SelectedComponent = componentMap[selectedMenuItem];

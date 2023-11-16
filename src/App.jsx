@@ -1,11 +1,14 @@
 import { AppRouter } from './routes/Route.jsx';
 import { UserProvider } from './context/UserContext.jsx';
+import { UserDegree } from './context/UserDegre.jsx';
 
 const App = () => {
   return (
     <div className="container-rota">
       <UserProvider>
-        <AppRouter />
+        <UserDegree>
+          <AppRouter />
+        </UserDegree>
       </UserProvider>
     </div>
   );

@@ -1,5 +1,4 @@
 import './formsRegister.scss';
-import { useForm } from 'react-hook-form';
 import { PropTypes } from 'prop-types';
 import { useState } from 'react';
 import { cpf } from 'cpf-cnpj-validator';
@@ -12,7 +11,6 @@ export const RegisterData = ({
   fieldValidations,
   setFieldValidations,
 }) => {
-  // const { register } = useForm();
 
   const [selectedGender, setSelectedGender] = useState('');
   const [errors, setErrors] = useState({});
@@ -20,7 +18,6 @@ export const RegisterData = ({
   const handleGenderChange = (event) => {
     setSelectedGender(event.target.value);
     handleFieldChange(event, 'gender');
-    console.log(event.target.value);
   };
 
   const dateBirthMask = (value) => {
@@ -46,7 +43,6 @@ export const RegisterData = ({
 
   const handleFieldChange = (e, fieldName) => {
     let value = e.target.value;
-    console.log(value);
 
     if (fieldName === 'dateBirth') {
       value = dateBirthMask(value);
@@ -55,7 +51,6 @@ export const RegisterData = ({
     if (fieldName === 'cpf') {
       value = cpfMask(value);
       if (cpf.isValid(value)) {
-        console.log(cpf.isValid(value));
         setErrors({ cpf: '' });
       } else {
         setErrors({ cpf: 'CPF inválido' });
@@ -65,7 +60,6 @@ export const RegisterData = ({
     if (fieldName === 'confirmPassword') {
       if (value !== formData.password) {
         setErrors({ confirmPassword: 'Senhas não coincidem' });
-        console.log(errors);
       } else {
         setErrors({ confirmPassword: '' });
       }
@@ -80,7 +74,6 @@ export const RegisterData = ({
       [fieldName]: isFieldValid,
     };
     setFieldValidations(updatedFieldValidations);
-
     const isFormValid =
       updatedFieldValidations.firstName &&
       updatedFieldValidations.lastName &&
@@ -94,6 +87,7 @@ export const RegisterData = ({
     setIsFormValid(isFormValid);
   };
 
+
   async function getCpfOrEmail(cpfOrEmail) {
     if (!cpfOrEmail) return;
 
@@ -101,7 +95,6 @@ export const RegisterData = ({
       const response = await api.get(`/user/data/${cpfOrEmail}`);
 
       const { errorID, message, data } = response.data;
-      console.log(data);
 
       if (errorID === 'email' && data === formData.email) {
         setErrors({ email: message });
@@ -143,7 +136,6 @@ export const RegisterData = ({
         [fieldName]: true,
       }));
     }
-    console.log(fieldValidations);
   };
 
   const updateValidation = (key, isValid) => {
@@ -290,7 +282,7 @@ export const RegisterData = ({
       </div>
       <div className="forms-register">
         <label htmlFor="confirmPassword" className="label-register">
-          Senha
+          Confirmar senha
           <span className="material-icons-sharp emergency">emergency</span>
         </label>
         <input

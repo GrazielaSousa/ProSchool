@@ -3,9 +3,6 @@
 .main-users {
   width: 100%;
   margin-bottom: 20px;
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .header-buttton{
@@ -97,6 +94,11 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .icons-action .material-icons-sharp {
   cursor: pointer;
+}
+
+.material-icons-sharp.edit_note:hover, .material-icons-sharp.delete:hover{
+  color: $text-color-purple
+
 }
 
 /** PAGINAÇÃO **/
@@ -191,5 +193,7 @@ input[type="search"]::-webkit-search-cancel-button {
   display: flex;
   justify-content: center;
   font-size: 1.3rem;
-  color: $text-color-blue;
+  margin-top: 2rem;
+  color: $text-color-purple;
+  font-weight: bold;
 }

@@ -14,6 +14,7 @@ export const RegisterAddress = ({
   const {setValue } = useForm();
   const [uf, setUf] = useState([]);
 
+
   useEffect(() => {
     fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados').then(
       (response) =>
@@ -33,7 +34,7 @@ export const RegisterAddress = ({
   const handleFieldChange = (e, fieldName) => {
     let value = e.target.value;
 
-    if (fieldName === 'cep') {
+    if (fieldName === 'zip') {
       value = formatCEP(value);
     }
 
@@ -48,37 +49,28 @@ export const RegisterAddress = ({
 
     setFieldValidations(updatedFieldValidations);
 
-    const isFormValid = updatedFieldValidations.cep;
+    const isFormValid = updatedFieldValidations.zip;
     setIsFormValid(isFormValid);
   };
 
   const handleBlur = (e, fieldName) => {
-    if (fieldName === 'cep') {
-      const cep = e.target.value.replace(/\D/g, '');
-      fetch(`https://viacep.com.br/ws/${cep}/json/`).then((response) =>
+    if (fieldName === 'zip') {
+      const zip = e.target.value.replace(/\D/g, '');
+      fetch(`https://viacep.com.br/ws/${zip}/json/`).then((response) =>
         response.json().then((data) => {
           if (data.logradouro) {
-            // setValue('address', data.logradouro, { shouldValidate: true });
-            // setValue('neighborhood', data.bairro, { shouldValidate: true });
-            // setValue('complement', data.complemento, { shouldValidate: true });
-            // setValue('city', data.localidade, { shouldValidate: true });
-
             // Busca pela sigla da UF a UF por extenso
             const stateExtension = uf.find((uf) => uf.sigla === data.uf);
-            // setValue('state', stateExtension.nome, { shouldValidate: true });
-            console.log('estado por extenso: ' + stateExtension.nome);
 
             setFormData((prevData) => ({
               ...prevData,
+              zip: data.cep,
               address: data.logradouro,
               neighborhood: data.bairro,
               complement: data.complemento,
               city: data.localidade,
               state: stateExtension.nome,
             }));
-
-            console.log('endereço : ' + formData.address);
-            console.log('==============');
 
             setFieldValidations((prevValidations) => ({
               ...prevValidations,
@@ -114,7 +106,6 @@ export const RegisterAddress = ({
         ...prevValidations,
         [fieldName]: false,
       }));
-      console.log('caiu no true');
     } else {
       const span = e.target.parentNode.querySelector(
         '.material-icons-sharp.emergency'
@@ -127,7 +118,6 @@ export const RegisterAddress = ({
       }));
     }
   };
-  console.log(fieldValidations);
 
   const updateValidation = (key, isValid) => {
     setFieldValidations((prevValidations) => ({
@@ -138,21 +128,21 @@ export const RegisterAddress = ({
 
   return (
     <>
-      <div className="forms-register cep" style={{ marginLeft: '-11.2rem' }}>
-        <label htmlFor="cep" className="label-register">
+      <div className="forms-register zip" style={{ marginLeft: '-11.2rem' }}>
+        <label htmlFor="zip" className="label-register">
           CEP <span className="material-icons-sharp emergency">emergency</span>
         </label>
         <input
           style={{ width: 'min-content' }}
           type="text"
-          name="cep"
-          id="cep"
+          name="zip"
+          id="zip"
           className="input-register"
           required
           placeholder="00000-00"
-          value={formData.cep || ''}
-          onChange={(e) => handleFieldChange(e, 'cep', setIsFormValid)}
-          onBlur={(e) => handleBlur(e, 'cep')}
+          value={formData.zip || ''}
+          onChange={(e) => handleFieldChange(e, 'zip', setIsFormValid)}
+          onBlur={(e) => handleBlur(e, 'zip')}
         />
       </div>
 

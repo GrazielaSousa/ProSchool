@@ -7,10 +7,12 @@ import { useEffect, useState } from 'react';
 import { setTipoUsuarioLogado } from '../Menu/sidebar.js';
 import { useUser } from '../../../context/UserContext.jsx';
 import api from '../../../api/api.js';
+import { useDegree } from '../../../context/UserDegre.jsx';
 
-export const LoginUser = ({ onForgotPasswordClick }) => {
+export const LoginUser = () => {
   const [authenticationError, setAuthenticationError] = useState(false);
   const { setNomeUsuario } = useUser();
+  const {setDegree} = useDegree();
 
   useEffect(() => {
     document.title = 'Login';
@@ -33,10 +35,9 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
         password: dataUser.password,
       });
 
-      console.log(response.data);
-
       if (response.status === 200) {
         const data = response.data;
+        setDegree(data.educationalData.degree);
         setNomeUsuario(data.firstName + " " + data.lastName);
         if(data.admin === true) {
           setTipoUsuarioLogado('admin');
@@ -47,7 +48,6 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
       }
     } catch (error) {
       setAuthenticationError(true);
-      console.error('Credenciais inválidas');
     }
   };
 
@@ -96,21 +96,6 @@ export const LoginUser = ({ onForgotPasswordClick }) => {
         {authenticationError && (
           <span className="error-message">Login e/ou senha inválidos</span>
         )}
-
-        {/* <div className="save-password">
-          <div className="container-senha">
-            <input type="checkbox" className="btn-checkbox" id="checkbox" />
-            <label htmlFor="checkbox" className="label-checkbox">
-              Lembrar-me
-            </label>
-          </div>
-          {onForgotPasswordClick &&
-            typeof onForgotPasswordClick === 'function' && (
-              <span className="reset-password" onClick={onForgotPasswordClick}>
-                Esqueceu sua senha?
-              </span>
-            )}
-        </div> */}
         <Button textButton="Acessar" onClick={handleSubmit(onSubmit)} />
       </>
     );

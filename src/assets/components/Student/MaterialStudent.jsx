@@ -3,10 +3,19 @@ import PropTypes from 'prop-types';
 import { listMaterials } from './materials.js';
 import { useState } from 'react';
 import { MaterialsPdf } from '../Materials/MaterialsPdf.jsx';
-
+import { useDegree } from '../../../context/UserDegre.jsx';
 export const MaterialStudent = () => {
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [showPDF, setShowPDF] = useState(false);
+  const { degree } = useDegree();
+
+  let materials;
+
+  if(degree === 'fundamental'){
+    materials = listMaterials.fundamental;
+  } else {
+    materials = listMaterials.medio;
+  }
 
 
   const handleBackClick = () => {
@@ -14,9 +23,7 @@ export const MaterialStudent = () => {
     setSelectedMaterial(null);
   };
 
-  // Chamada da API para abrir o material
-  const handleMaterialClick = (material) => {
-    console.log('Clicou no material:', material);
+  const handleMaterialClick = async (material) => {
     setSelectedMaterial(material);
     setShowPDF(true);
   };
@@ -30,7 +37,7 @@ export const MaterialStudent = () => {
           />
         ) : (
         <div className="l-cards">
-          {listMaterials.map((material, index) => (
+          {materials.map((material, index) => (
             <article
               className="cards"
               key={index}

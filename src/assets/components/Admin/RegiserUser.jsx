@@ -2,7 +2,7 @@ import { HeaderRegister } from '../Header/HeaderRegister.jsx';
 import { RxArrowLeft, RxArrowRight, RxCheck } from 'react-icons/rx';
 import './registerUser.scss';
 import { useState } from 'react';
-
+import swal from 'sweetalert';
 import api from '../../../api/api.js';
 
 // Hooks
@@ -21,7 +21,7 @@ const templateData = {
   gender: '',
   password: '',
   confirmPassword: '',
-  cep: '',
+  zip: '',
   address: '',
   neighborhood: '',
   complement: '',
@@ -29,6 +29,7 @@ const templateData = {
   state: '',
   enrollmentNumber: '',
   degree: '',
+  classroom: '',
   period: '',
 };
 
@@ -45,16 +46,16 @@ export const RegistrarUsuario = () => {
     gender: false,
     password: false,
     confirmPassword: false,
-    cep: false,
+    zip: false,
     address: false,
     neighborhood: false,
     complement: false,
     city: false,
     state: false,
     enrollmentNumber: false,
+    classroom: false,
     degree: false,
     period: false,
-    // Adicione outros campos e defina-os como false
   });
 
   const updateFieldData = (key, value) => {
@@ -90,20 +91,48 @@ export const RegistrarUsuario = () => {
       setFieldValidations={setFieldValidations}
     />,
   ];
-  const { currentStep, currentComponent, changeStep, isLastStep, isFirstStep } =
+  const { currentStep, currentComponent, changeStep, isLastStep, isFirstStep, setCurrentStep } =
     useForm(stepsComponent);
 
-  // async function handleSubmit() {
-  //   try {
-  //     const response = await api.post('/users', {
-  //       firstName: formData.firstName,
-  //       lastName: formData.lastName,
-  //     });
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error('Erro ao enviar dados para o servidor:', error);
-  //   }
-  // }
+  async function handleSubmit() {
+    try {
+      const response = await api.post('/users', {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        admin: formData.admin,
+        email: formData.email,
+        dateBirth: formData.dateBirth,
+        cpf: formData.cpf,
+        gender: formData.gender,
+        password: formData.password,
+        address: {
+          zip: formData.zip,
+          street: formData.address,
+          neighborhood: formData.neighborhood,
+          complement: formData.complement,
+          city: formData.city,
+          state: formData.state,
+        },
+        educationalData: {
+          degree: formData.degree,
+          classroom: formData.classroom,
+          period: formData.period,
+          enrollmentNumber: formData.enrollmentNumber,
+        },
+      });
+      if(response.status === 201){
+        swal('Usuário cadastrado com sucesso!', '', 'success');
+        setFormData(templateData);
+        setCurrentStep(0);
+        setIsFormValid(false);
+      } else if (response.status === 400) {
+        swal('Erro ao cadastrar usuário!', '', 'error');
+      }
+    } catch (error) {
+      console.error('Erro ao enviar dados para o servidor:', error);
+      swal('Erro ao cadastrar usuário!', '', 'error');
+    }
+  }
 
   return (
     <div className="c-container">
@@ -116,6 +145,7 @@ export const RegistrarUsuario = () => {
               e.preventDefault();
               if (isFormValid) {
                 changeStep(currentStep + 1, e);
+                setIsFormValid(false);
               }
             }}
           >
@@ -147,7 +177,6 @@ export const RegistrarUsuario = () => {
 
               {!isLastStep ? (
                 <button
-                  // onClick={() => handleSubmit()}
                   className={`button-next ${
                     currentStep >= 0 && isFormValid ? 'active' : 'inactive'
                   }`}
@@ -168,6 +197,7 @@ export const RegistrarUsuario = () => {
                 </button>
               ) : (
                 <button
+                  onClick={() => isFormValid && handleSubmit()}
                   className={`button-next ${
                     currentStep >= 0 && isFormValid ? 'active' : 'inactive'
                   }`}
@@ -175,7 +205,7 @@ export const RegistrarUsuario = () => {
                 >
                   <span
                     className={`text-button-register ${
-                      currentStep >= 0  && isFormValid ? 'active' : 'inactive'
+                      currentStep >= 0 && isFormValid ? 'active' : 'inactive'
                     }`}
                   >
                     Enviar

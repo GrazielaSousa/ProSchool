@@ -13,7 +13,8 @@ export const UsersTable = () => {
 
   async function gellAllData() {
     const response = await api.get('/');
-    setAllData(response.data);
+    const students = response.data.filter((user) => !user.admin);
+    setAllData(students);
   }
 
   useEffect(() => {
@@ -33,7 +34,10 @@ export const UsersTable = () => {
   const totalPages = Math.ceil(filteredData.length / itensPerPage);
 
   // Calcula o índice final com base nos dados filtrados
-  const endIndex = Math.min(filteredData.length,startPage * itensPerPage + itensPerPage);
+  const endIndex = Math.min(
+    filteredData.length,
+    startPage * itensPerPage + itensPerPage
+  );
 
   // Obtém os dados a serem exibidos na página atual com base nos dados filtrados
   const currentItens = filteredData.slice(startPage * itensPerPage, endIndex);
@@ -42,9 +46,12 @@ export const UsersTable = () => {
     setCurrentPage(newPage);
   };
 
-
   const handleChangeInput = (e) => {
     setFilter(e.target.value.toLowerCase());
+  };
+
+  const updateUserList = (newUsers) => {
+    setAllData(newUsers);
   };
 
   return (
@@ -57,12 +64,16 @@ export const UsersTable = () => {
           placeholder="Buscar"
           value={filter}
         />
-        {/* <a href='#'><span className="icon-search material-icons-sharp">search</span></a> */}
       </div>
       <div className="table-container">
-        <TableStudent currentItens={currentItens} filter={filter} />
+        <TableStudent
+          currentItens={currentItens}
+          filter={filter}
+          setFilter={setFilter}
+          updateUserList={updateUserList}
+        />
         {currentItens.length === 0 && (
-          <span className="table-empty">Nenhum resultado encontrado</span>
+          <span className="table-empty">Nenhum aluno encontrado</span>
         )}
       </div>
       <Pagination

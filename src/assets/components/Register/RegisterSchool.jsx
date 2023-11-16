@@ -14,10 +14,29 @@ export const RegisterSchool = ({
   const [selectedPeriod, setSelectedPeriod] = useState('');
   const [enrollmentNumberExist, setEnrollmentNumberExist] = useState(false);
 
+  async function getEnrollmentNumber(enrollmentNumber) {
+    if (!enrollmentNumber) return;
+
+    try {
+      const response = await api.get(`/user/${enrollmentNumber}`);
+
+      if (response.status === 409) {
+        return true;
+      } else if (response.status === 200) {
+        return false;
+      }
+    } catch (error) {
+      if(error.response.status === 409){
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
   const handleDegreeChange = (event) => {
     setSelectedDegree(event.target.value);
     handleFieldChange(event, 'degree');
-    console.log(event.target.value);
   };
 
   const handlePeriodChange = (event) => {
@@ -28,27 +47,25 @@ export const RegisterSchool = ({
       setSelectedPeriod(selectedValue);
     }
     handleFieldChange(event, 'period');
-    console.log(event.target.value);
   };
 
-  const handleFieldChange = (e, fieldName) => {
+  const handleFieldChange = async (e, fieldName) => {
     let value = e.target.value;
     let isFieldValid;
 
     if (fieldName === 'enrollmentNumber') {
-      if (enrollmentNumberExist) {
+      const exists = await getEnrollmentNumber(value);
+      setEnrollmentNumberExist(exists);
+      if(exists){
         isFieldValid = false;
       } else {
         isFieldValid = true;
       }
+      
     }
 
     if (fieldName === 'degree' || fieldName === 'period') {
-      if (value !== '') {
-        isFieldValid = true;
-      } else {
-        isFieldValid = false;
-      }
+      isFieldValid = value.trim() !== '';
     }
 
     updateFieldData(fieldName, value);
@@ -62,33 +79,16 @@ export const RegisterSchool = ({
     setFieldValidations(updatedFieldValidations);
 
     const isFormValid =
-      updatedFieldValidations.class &&
-      updatedFieldValidations.enrollmentNumber &&
+      updatedFieldValidations.classroom &&
       updatedFieldValidations.degree &&
-      updatedFieldValidations.period;
+      updatedFieldValidations.period &&
+      updatedFieldValidations.enrollmentNumber;
     setIsFormValid(isFormValid);
   };
-
-  async function getEnrollmentNumber(enrollmentNumber) {
-    if (!enrollmentNumber) return;
-
-    try {
-      const response = await api.get(`/user/${enrollmentNumber}`);
-
-      if (response.status === 409) {
-        setEnrollmentNumberExist(true);
-      } else if (response.status === 200) {
-        setEnrollmentNumberExist(null);
-      }
-    } catch (error) {
-      setEnrollmentNumberExist(true);
-    }
-  }
 
   const handleBlur = (e, fieldName) => {
     if (fieldName === 'enrollmentNumber') {
       getEnrollmentNumber(e.target.value);
-      console.log('turma: ' + e.target.value);
     }
     const span = e.target.parentNode.querySelector(
       '.material-icons-sharp.emergency'
@@ -114,7 +114,6 @@ export const RegisterSchool = ({
       }));
     }
   };
-  console.log(fieldValidations);
 
   const updateValidation = (key, isValid) => {
     setFieldValidations((prevValidations) => ({
@@ -132,13 +131,13 @@ export const RegisterSchool = ({
         </label>
         <input
           type="text"
-          name="class"
-          id="class"
+          name="classroom"
+          id="classroom"
           className="input-register"
           required
-          value={formData.class || ''}
-          onChange={(e) => handleFieldChange(e, 'class', setIsFormValid)}
-          onBlur={(e) => handleBlur(e, 'class')}
+          value={formData.classroom || ''}
+          onChange={(e) => handleFieldChange(e, 'classroom', setIsFormValid)}
+          onBlur={(e) => handleBlur(e, 'classroom')}
         />
       </div>
 

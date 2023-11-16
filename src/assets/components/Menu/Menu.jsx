@@ -110,7 +110,7 @@ const Sidebar = ({ onMenuItemClick }) => {
               className={menuItem.label === activeLink ? 'active' : ''}
             >
               <span className="material-icons-sharp">{menuItem.icon}</span>
-              <h3>{menuItem.label}</h3>
+              <h3 className='label-title'>{menuItem.label}</h3>
             </Link>
           ))}
         </nav>

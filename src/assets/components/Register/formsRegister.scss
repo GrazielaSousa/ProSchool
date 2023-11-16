@@ -37,7 +37,7 @@
   margin-left: 4px;
 }
 
-.input-register:focus {
+.input-register:focus, .select-register:focus {
   border: 2px solid $text-color-purple;
 }
 
@@ -47,4 +47,68 @@
 
 .input-register.error {
   border: 2px solid $color-red-danger;
+}
+
+.c-form-subject {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  justify-self: center;
+  margin: 5rem;
+  height: fit-content;
+  gap: 3.5rem;
+  flex-wrap: wrap;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-container {
+  border: 2px solid $input-gray-1;
+  width: 380px;
+  display: flex;
+  align-items: center;
+  height: 50px;
+  border-radius: $border-radius-1;
+  justify-content: space-between;
+  padding: 0px 15px 0 7px;
+  white-space: nowrap;
+}
+
+[class*="file-name"]{
+  padding: 16px 0 20px 9px;
+  text-overflow: ellipsis;
+}
+
+.file-name-sucess {
+  color: $text-color-blue;
+  width: inherit;
+}
+
+.file-name {
+  color: $input-gray-1;
+}
+
+.material-icons-sharp.add {
+  color: $input-gray-1;
+}
+
+.material-icons-sharp.close {
+  color: $text-color-blue;
+}
+
+.btn-upload {
+  background-color: $btn-purple;
+  display: flex;
+  align-items: center;
+  padding: 1rem 0.7rem;
+  border-radius: $border-radius-1;
+  color: $btn-gray;
+  gap: 0.7rem;
+}
+
+.btn-upload:hover {
+  background-color: $text-color-purple;
+  color: $bg-color-white;
 }

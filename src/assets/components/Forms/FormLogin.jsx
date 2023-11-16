@@ -30,10 +30,7 @@ function FormLogin (){
 
   const navigate = useNavigate(); 
   const handleAcessarClick = () => {
-    // Realize a lógica de autenticação ou validação aqui
-    // Depois de verificar as credenciais, navegue para a página Dashboard
     navigate('/Home');
-    console.log("Clicou");
   };
   return (
     <div className="container-form">

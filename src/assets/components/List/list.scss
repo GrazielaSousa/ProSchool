@@ -1,0 +1,73 @@
+@import '../../styles/variables.scss';
+@import "primereact/resources/themes/lara-light-indigo/theme.css";
+
+.c-list {
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f4f4;
+  width: 420px;
+  height: 190px;
+  padding: 0.8rem 1rem;
+  gap: 0.8rem;
+  border-radius: $border-radius-1;
+}
+
+.list-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.pdf {
+  width: 60px;
+}
+
+.btn-download-pdf {
+  width: fit-content;
+  background-color: transparent;
+  color: #8ecae6;
+  font-size: 1.4rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pdf-delete:hover{
+  color: $color-red-danger;
+  cursor: pointer;
+}
+
+.p-dialog-title{
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: $text-color-blue;
+}
+
+.p-confirm-dialog-message {
+  font-size: 1.2rem;
+}
+
+.p-confirm-dialog {
+  width: 320px;
+}
+
+.p-dialog-header, .p-dialog-content, .p-dialog-footer {
+  padding: 0.7rem;
+}
+
+.p-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.p-button {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+}
+
+.p-toast-message-content {
+  gap: 0.6rem;
+}

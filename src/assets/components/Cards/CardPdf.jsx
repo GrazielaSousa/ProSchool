@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
-import pdfUrl from '../../../../public/Entendendo Algoritmos_ Um guia ilustrado para programadores e outros curiosos.pdf';
 import '../Materials/materials.scss';
 import image from '../../../../public/image.svg';
+import { Document, Page, pdfjs } from 'react-pdf';
 import { PropTypes } from 'prop-types';
 
-export const CardPdf = ({ materials }) => {
-  const [viewImagePdf, setViewImagePdf] = useState(false);
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-  const imagePdf =
-    'https://www.papeldeparede.etc.br/fotos/wp-content/uploads/lunakino_ru_iceage3_-_177-1280x1024.jpg';
-  // const imagePdf = null;
+export const CardPdf = ({ materials }) => {
+  // Pegar os dados do banco de dados
+  const [viewImagePdf, setViewImagePdf] = useState(true);
+  const [numPages, setNumPages] = useState(null);
+
+  const imagePdf = materials.file;
 
   useEffect(() => {
     if (imagePdf) {
@@ -21,41 +23,30 @@ export const CardPdf = ({ materials }) => {
   }, []);
 
   function handleDownload() {
-    window.open(pdfUrl, '_blank');
-    console.log('clicou?');
+    window.open(imagePdf, '_blank', 'noopener noreferrer');
   }
 
   return (
     <>
       <div className="card" onClick={handleDownload}>
-        <div
-          className="c-card-item"
-          style={imagePdf ? { backgroundImage: `url(${imagePdf})` } : {}}
-        >
+        <div className="c-card-item">
           <div className="c-card__body">
+            {viewImagePdf ? (
+              <Document
+                file={imagePdf}
+                onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+              >
+                <Page pageNumber={1} width={280} />
+              </Document>
+            ) : (
+              <div className="image-container">
+                <img src={image} className="image-pdf" alt="Placeholder" />
+              </div>
+            )}
             <div className="icon-pdf">PDF</div>
           </div>
-
-          {!viewImagePdf && (
-            <img
-              src={image}
-              className="image-pdf"
-              style={{
-                position: 'relative',
-                top: '-2%',
-                left: '30%',
-                width: '100px',
-              }}
-            />
-          )}
           <div className="pdf-title">
-            <p className="card-text">
-              {materials.text} Lorem ipsum dolor sit amet, consectetur
-              adipisicing elit. Nam optio blanditiis, totam eveniet quasi
-              accusantium! Praesentium asperiores accusamus nemo doloremque
-              provident facilis, deserunt quibusdam optio quasi hic, et labore
-              repellat.
-            </p>
+            <p className="card-text">{materials.title}</p>
           </div>
         </div>
       </div>

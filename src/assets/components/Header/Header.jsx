@@ -3,7 +3,7 @@ import userUppercase from '../Header/header.js';
 import { PropTypes } from 'prop-types';
 import { useUser } from '../../../context/UserContext.jsx';
 /* Importação das imagens */
-import iconTykki from '../../images/tykki.jpg';
+import avatar from '../../images/Avatars.svg';
 
 const Header = ({ selectedMenuItem }) => {
   const { nomeUsuario } = useUser();
@@ -19,7 +19,7 @@ const Header = ({ selectedMenuItem }) => {
           <span className="tipoUsuario">{userUppercase()}</span>
         </div>
 
-        <img src={iconTykki} className="icone-perfil" />
+        <img src={avatar} className="icone-perfil" />
       </div>
     </div>
   );

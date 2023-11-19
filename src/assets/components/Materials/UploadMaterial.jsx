@@ -4,6 +4,7 @@ import { listMaterials } from './../Student/materials';
 import api from './../../../api/api';
 import { Flip, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const templateData = {
   title: '',
@@ -13,6 +14,7 @@ const templateData = {
 };
 
 export const UploadMaterial = () => {
+  const [loading, setLoading] = useState(false);
   // Array de matérias sem duplicatas
   const allMaterials = listMaterials.fundamental.concat(listMaterials.medio);
   const allMaterialsNotDuplicate = new Set(
@@ -28,11 +30,12 @@ export const UploadMaterial = () => {
   const [selectedFileName, setSelectedFileName] = useState('');
 
   const getMaterialsByDegree = (degree) => {
-    return degree === 'fundamental' ? listMaterials.fundamental : listMaterials.medio;
+    return degree === 'fundamental'
+      ? listMaterials.fundamental
+      : listMaterials.medio;
   };
 
   const availableMaterials = getMaterialsByDegree(selectDegree);
-
 
   const handleFileChange = (e, fieldName) => {
     const selectedFile = e.target.files[0];
@@ -107,29 +110,39 @@ export const UploadMaterial = () => {
       toast.error('Por favor, preencha todos os campos');
       return;
     }
+
+    setLoading(true);
+
     var form = new FormData();
     form.append('file', file);
     form.append('title', title);
     form.append('degree', selectDegree);
     form.append('subject', selectSubject);
 
-    await api
-      .post('/uploads', form, {
+    try {
+      const response = await api.post('/uploads', form, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      })
-      .then((response) => {
-        toast.success(response.data);
-      })
-      .catch((error) => {
-        toast.error(error.response.data);
       });
+
+      toast.success(response.data);
+    } catch (error) {
+      toast.error(error.response.data);
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div
       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
+      {loading ? (
+        <div style={{ display: 'flex', height: '450px', alignItems: 'center', position: 'absolute', zIndex: '9999'}}>
+          <ClipLoader loading={loading} color="#828DD9" size={120} />
+        </div>
+      ) : null}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

@@ -16,8 +16,8 @@
   gap: 2.5rem;
   margin: 0px 20px;
   flex-wrap: wrap;
-  // justify-content: center;
-  height: fit-content;
+  overflow-y: auto;
+  height: 85vh;
 }
 
 .c-card-item {

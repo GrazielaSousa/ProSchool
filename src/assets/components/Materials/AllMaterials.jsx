@@ -20,7 +20,6 @@ export const AllMaterials = () => {
   const deleteFileAndUpdateList = async (id) => {
     await api.delete(`/deleteFile/${id}`);
     setLoading(true);
-    // Inserir loader
     setTimeout(() => {
       setLoading(false);
     }, 2000);

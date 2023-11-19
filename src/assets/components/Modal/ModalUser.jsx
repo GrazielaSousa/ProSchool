@@ -191,6 +191,7 @@ export const ModalUser = ({
                       <input
                         type="text"
                         id="inputField"
+                        disabled
                         value={cpf}
                         onChange={(e) => setCpf(e.target.value)}
                         ref={cpfRef}
@@ -301,6 +302,7 @@ export const ModalUser = ({
                       <input
                         type="text"
                         id="inputField"
+                        disabled
                         value={enrollmentNumber}
                         onChange={(e) => setEnrollmentNumber(e.target.value)}
                         ref={enrollmentNumberRef}

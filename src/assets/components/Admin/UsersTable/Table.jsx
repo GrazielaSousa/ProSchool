@@ -26,28 +26,40 @@ export const UsersTable = () => {
   }, [currentPage]);
 
   // Calcula paginação com base nos dados filtrados
-  const filteredData = allData.filter((item) =>
-    item.firstName.toLowerCase().includes(filter)
+  const filteredData = allData.filter(
+    (item) =>
+      item.firstName.toLowerCase().includes(filter) ||
+      item.gender.toLowerCase().includes(filter) ||
+      item.educationalData.classroom.toLowerCase().includes(filter) ||
+      item.educationalData.enrollmentNumber.toLowerCase().includes(filter)
   );
 
   // Calcula a quantidade de páginas com base nos dados filtrados
   const totalPages = Math.ceil(filteredData.length / itensPerPage);
 
   // Calcula o índice final com base nos dados filtrados
-  const endIndex = Math.min(
-    filteredData.length,
-    startPage * itensPerPage + itensPerPage
-  );
+  const startIndex = startPage * itensPerPage;
+  const endIndex = Math.min(startIndex + itensPerPage, filteredData.length);
 
   // Obtém os dados a serem exibidos na página atual com base nos dados filtrados
-  const currentItens = filteredData.slice(startPage * itensPerPage, endIndex);
+  const currentItens = filteredData.slice(startIndex, endIndex);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  const handleChangeInput = (e) => {
-    setFilter(e.target.value.toLowerCase());
+  const handleChangeInput = async (e) => {
+    const searchText = e.target.value.toLowerCase();
+    setFilter(searchText);
+
+    // Verifica se o campo de busca foi limpo e, se sim, atualiza a lista de usuários
+    if (searchText === '') {
+      const response = await api.get('/');
+      const students = response.data.filter((user) => !user.admin);
+      setAllData(students);
+    }
+
+    setCurrentPage(0);
   };
 
   const updateUserList = (newUsers) => {

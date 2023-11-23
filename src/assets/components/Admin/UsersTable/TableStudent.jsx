@@ -19,15 +19,24 @@ export const TableStudent = ({ currentItens, filter, updateUserList }) => {
     setShowModal(false);
   };
 
+  // const filteredItens = filter
+  //   ? currentItens.filter((item) =>
+  //       item.firstName.toLowerCase().includes(filter)
+  //     )
+  //   : currentItens;
+
   const filteredItens = filter
-    ? currentItens.filter((item) =>
-        item.firstName.toLowerCase().includes(filter)
-      )
-    : currentItens;
+  ? currentItens.filter((item) =>
+      item.firstName.toLowerCase().includes(filter) ||
+      item.gender.toLowerCase().includes(filter) ||
+      item.educationalData.classroom.toLowerCase().includes(filter) ||
+      item.educationalData.enrollmentNumber.toLowerCase().includes(filter)
+    )
+  : currentItens;
+
 
   const handleDelete = async (id) => {
     const deletedUser = await api.delete(`/deleteUser/${id}`);
-
     if (deletedUser) {
       const newUsers = currentItens.filter((user) => user._id !== id);
       updateUserList(newUsers);

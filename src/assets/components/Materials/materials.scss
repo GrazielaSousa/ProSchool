@@ -69,7 +69,7 @@
   padding: 0 0 0 2px;
   top: -0px;
   position: absolute;
-  z-index: 999;
+  z-index: 2; // Antes era 999
   width: 35px;
   border-radius: 0 0 5px;
 }
@@ -107,4 +107,31 @@
   display: flex;
   flex-direction: row;
   margin: 0px 30px;
+}
+
+@media (min-width: 300px ) and (max-width: 500px){
+  .l-cards {
+    height: 75vh;
+    overflow: auto;
+  }
+  .c-card {
+    height: 66vh;
+    overflow: auto;
+  }
+  .card {
+    margin-top: 0px;
+  }
+  .c-title {
+    height: fit-content;
+  }
+  .c-button {
+    margin-bottom: 1rem;
+  }
+}
+
+.image-pdf {
+  position: relative;
+  top: 25%;
+  left: 25%;
+  width: 120px;
 }

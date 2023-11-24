@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import '../Materials/materials.scss';
-import image from '../../../../public/image.svg';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { PropTypes } from 'prop-types';
+
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export const CardPdf = ({ materials }) => {
-  // Pegar os dados do banco de dados
-  const [viewImagePdf, setViewImagePdf] = useState(true);
+  const [viewImagePdf, setViewImagePdf] = useState(false);
   const [numPages, setNumPages] = useState(null);
 
   const imagePdf = materials.file;
@@ -20,7 +21,7 @@ export const CardPdf = ({ materials }) => {
     } else {
       setViewImagePdf(false);
     }
-  }, []);
+  }, [imagePdf]);
 
   function handleDownload() {
     window.open(imagePdf, '_blank', 'noopener noreferrer');
@@ -35,13 +36,12 @@ export const CardPdf = ({ materials }) => {
               <Document
                 file={imagePdf}
                 onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+                loading={<Skeleton width={420} height={420} />}
               >
                 <Page pageNumber={1} width={280} />
               </Document>
             ) : (
-              <div className="image-container">
-                <img src={image} className="image-pdf" alt="Placeholder" />
-              </div>
+              <Skeleton width={420} height={420} />
             )}
             <div className="icon-pdf">PDF</div>
           </div>

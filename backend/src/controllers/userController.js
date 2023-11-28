@@ -33,6 +33,7 @@ module.exports = {
       }
 
       const passwordCrypt = bcrypt.hashSync(password, 6);
+      const uppercaseEnrollmentNumber = enrollmentNumber.toUpperCase();
 
       //Cria o usuario
       await User.create({
@@ -56,7 +57,7 @@ module.exports = {
           degree,
           classroom,
           period,
-          enrollmentNumber,
+          enrollmentNumber: uppercaseEnrollmentNumber,
         },
       });
 
@@ -135,7 +136,8 @@ module.exports = {
   },
 
   async validEnrollmentNumber(request, response) {
-    const enrollmentNumber = request.params.enrollmentNumber;
+    const enrollmentNumber = request.params.enrollmentNumber.toUpperCase();
+    console.log(enrollmentNumber);
 
 
     const userEnrollmentNumber = await User.findOne({
